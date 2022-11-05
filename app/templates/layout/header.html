@@ -23,7 +23,7 @@
                     <a class="nav-link text-dark" href="javascript:void(0)">Tin tức</a>
                 </li>
                 <li class="nav-item check-in">
-                     <a href="javascript:void(0)">Đăng ký khám trực tuyến</a>
+                     <a href="javascript:void(0)">Đăng ký khám bệnh</a>
                 </li>
 
             </ul>
@@ -43,7 +43,7 @@
                         <a href="">Đăng nhập <i class="fa-solid fa-caret-down"></i></a>
                     </div>
                     <div class="auth-dropdown">
-                        <div class="btn btn-login"><a href="">Đăng nhập</a></div>
+                        <div class="btn btn-login"><a href="{{ url_for('login') }}">Đăng nhập</a></div>
                         <div class="btn btn-register"><a href="">Đăng ký</a></div>
                     </div>
                 </div>
@@ -53,33 +53,3 @@
     </div>
 </nav>
 <!-- Carousel -->
-<div id="demo" class="carousel slide" data-bs-ride="carousel">
-
-    <!-- Indicators/dots -->
-    <div class="carousel-indicators">
-        <button type="button" data-bs-target="#demo" data-bs-slide-to="0" class="active"></button>
-        <button type="button" data-bs-target="#demo" data-bs-slide-to="1"></button>
-        <button type="button" data-bs-target="#demo" data-bs-slide-to="2"></button>
-    </div>
-
-    <!-- The slideshow/carousel -->
-    <div class="carousel-inner">
-        <div class="carousel-item active">
-            <img src="{{ url_for('static',filename='image/c1.jpg') }}" alt="" class="d-block w-100">
-        </div>
-        <div class="carousel-item">
-            <img src="{{ url_for('static',filename='image/c2.jpg') }}" alt="" class="d-block w-100">
-        </div>
-        <div class="carousel-item">
-            <img src="{{ url_for('static',filename='image/c3.jpg') }}" alt="" class="d-block w-100">
-        </div>
-    </div>
-
-    <!-- Left and right controls/icons -->
-    <button class="carousel-control-prev" type="button" data-bs-target="#demo" data-bs-slide="prev">
-        <span class="carousel-control-prev-icon"></span>
-    </button>
-    <button class="carousel-control-next" type="button" data-bs-target="#demo" data-bs-slide="next">
-        <span class="carousel-control-next-icon"></span>
-    </button>
-</div>
