@@ -1,10 +1,44 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+{% extends 'layout/base.html' %}
 
-</body>
-</html>
+{% block title %} Trang chủ {% endblock %}
+{% block content %}
+<div class="container">
+    <div class="introduce">
+        <h1>Chào mừng đến với phòng khám D2</h1>
+        <div class="introduce-card-list d-flex flex-direction-row justify-content-between">
+            <div class="card introduce-card" style="width:400px">
+                <div class="introduce-card-icon d-flex justify-content-center align-items-center">
+                    <i class="fa-solid fa-user-doctor"></i>
+                </div>
+                <div class="card-body">
+                    <h4 class="card-title">Bác sĩ kinh nghiệm</h4>
+                    <p class="card-text">Đội ngũ bác sĩ là các chuyên gia với nền tảng vững chắc, giàu kinh nghiệm và y đức</p>
+                </div>
+            </div>
+
+            <div class="card introduce-card" style="width:400px">
+                <div class="introduce-card-icon d-flex justify-content-center align-items-center">
+                    <i class="fa-solid fa-microscope"></i>
+                </div>
+                <div class="card-body">
+                    <h4 class="card-title">Công nghệ hiện đại</h4>
+                    <p class="card-text">Hệ thống trang thiết bị y tế hiện đại bấc nhất được nhập khẩu từ các nước Anh, Mỹ, Đức</p>
+                </div>
+            </div>
+
+            <div class="card introduce-card" style="width:400px">
+                <div class="introduce-card-icon d-flex justify-content-center align-items-center">
+                    <i class="fa-solid fa-money-bill-transfer"></i>
+                </div>
+                <div class="card-body">
+                    <h4 class="card-title">Chi phí hợp lý</h4>
+                    <p class="card-text">Chi phí khám và điều trị, phẫu thuật minh bạch, rõ ràng cùng nhiều ưu đãi hỗ trợ hấp dẫn.</p>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+
+</div>
+{% endblock %}
