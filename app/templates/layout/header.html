@@ -2,7 +2,7 @@
     <div class="container">
         <a class="navbar-brand text-dark" href="javascript:void(0)">
             <div class="logo-img">
-                <img src="{{ url_for('static', filename='image/D2-logos/D2-logos.jpeg') }}" alt="D2">
+                <img src="{{ url_for('static', filename='images/D2-logos/D2-logos.jpeg') }}" alt="D2">
             </div>
         </a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mynavbar">
@@ -23,7 +23,7 @@
                     <a class="nav-link text-dark" href="javascript:void(0)">Tin tức</a>
                 </li>
                 <li class="nav-item check-in">
-                     <a href="javascript:void(0)">Đăng ký khám bệnh</a>
+                     <a href="{{ url_for('make_appointment') }}">Đăng ký khám trực tuyến</a>
                 </li>
 
             </ul>
@@ -37,7 +37,7 @@
 <!--                </div>-->
                 <div class="auth-form">
                     <div class="auth-form-img">
-                        <img src="{{ url_for('static',filename='image/user.png') }}" alt="user">
+                        <img src="{{ url_for('static',filename='images/user.png') }}" alt="user">
                     </div>
                     <div class="auth-form-login">
                         <a href="">Đăng nhập <i class="fa-solid fa-caret-down"></i></a>
@@ -52,4 +52,3 @@
         </div>
     </div>
 </nav>
-<!-- Carousel -->

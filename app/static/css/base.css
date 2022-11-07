@@ -12,3 +12,11 @@ html {
     font-family: Roboto;
 }
 
+.text-color {
+    color: var(--primary-color)
+}
+
+.btn {
+    min-width: 90px;
+}
+
