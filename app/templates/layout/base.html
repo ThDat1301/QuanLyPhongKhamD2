@@ -18,7 +18,6 @@
     <script src="https://kit.fontawesome.com/5f1e929776.js" crossorigin="anonymous"></script>
 
     {% block css %} {% endblock %}
-    {% block js %} {% endblock %}
 </head>
 <body>
     {% block header %}
@@ -29,6 +28,10 @@
 
     {% block footer %}
         {% include 'layout/footer.html' %}
+    {% endblock %}
+
+    {% block js %}
+    <script src="{{ url_for('static', filename='js/scripts.js') }}"></script>
     {% endblock %}
 </body>
 </html>

@@ -177,3 +177,11 @@
     font-size: 1.5rem;
     text-transform: uppercase;
 }
+
+/* Dang ky kham */
+
+.patient-check label,
+.sex-check label{
+    margin-right: 40px;
+    cursor: pointer;
+}

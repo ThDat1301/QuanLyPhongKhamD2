@@ -7,5 +7,10 @@ def home():
     return render_template('index.html')
 
 
+@app.route("/dang-ky-kham-truc-tuyen")
+def make_appointment():
+    return render_template('appointment.html')
+
+
 if __name__ == '__main__':
     app.run(debug=True)
