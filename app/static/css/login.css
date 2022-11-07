@@ -1,5 +1,5 @@
 .login-form{
-    width: 100vw;
+    width: 100%;
     height: 100vh;
     position: relative;
     background: linear-gradient(115deg, #56d8e4 10%, #9f01ea 90%);
@@ -30,7 +30,16 @@
     flex-direction: column;
 }
 .login-form form .data{
-    position: position;
+    position: relative;
+}
+.login-form form .data .form-label{
+    position: absolute;
+    top: 55%;
+    transform: translateY(-50%);
+    left: 10px;
+    user-select: none;
+    color: #999;
+    pointer-events: none;
 }
 .login-form a {
     text-decoration: none;
@@ -47,6 +56,22 @@
 .login-form form .data .input {
     width: 100%;
     font-size: 20px;
+    border: 1px solid #212122;
+    border-radius: 10px;
+    margin-top: 5px;
+    transition: 0.25s ease;
+    padding: 5px 8px;
+}
+.login-form form .data .input:focus{
+    /*border-color: #6a5a9f !important;*/
+
+}
+.input:focus + .form-label{
+    top: 5px !important;
+    left: 15px !important;
+    background-color: #fff;
+    color: #000 !important;
+    transition: 0.25s ease;
 }
 .btn-submit button{
     width: 100%;
@@ -55,6 +80,4 @@
     font-weight: 600;
     border: none;
 }
-div.signup-link{
-    text-align: center;
-}
+
