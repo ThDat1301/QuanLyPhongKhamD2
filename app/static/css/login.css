@@ -66,13 +66,14 @@
     /*border-color: #6a5a9f !important;*/
 
 }
-.input:focus + .form-label{
+.input:not(:placeholder-shown) + form-label, .input:focus + .form-label{
     top: 5px !important;
     left: 15px !important;
     background-color: #fff;
     color: #000 !important;
     transition: 0.25s ease;
 }
+
 .btn-submit button{
     width: 100%;
     padding: 5px;
