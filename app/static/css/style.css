@@ -162,6 +162,10 @@
     align-self: center;
 }
 
+.introduce-card-icon:hover{
+    background-color: #4b5e97;
+}
+
 .introduce-card-icon i {
     color: #fff;
     font-size: 3rem;
