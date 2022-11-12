@@ -32,7 +32,7 @@
 .login-form form .data{
     position: relative;
 }
-.login-form form .data .form-label{
+.form-label{
     position: absolute;
     top: 55%;
     transform: translateY(-50%);
@@ -50,27 +50,27 @@
     /*text-align: center;*/
 }
 
-.login-form form .data label {
+.form-label {
     display: block;
 }
-.login-form form .data .input {
+.input {
     width: 100%;
     font-size: 20px;
-    border: 1px solid #212122;
+    border: 2px solid #212122;
     border-radius: 10px;
     margin-top: 5px;
     transition: 0.25s ease;
     padding: 5px 8px;
+    outline: none;
 }
-.login-form form .data .input:focus{
-    /*border-color: #6a5a9f !important;*/
-
+.input:focus{
+    border-color:#6a5a9f;
 }
 .input:not(:placeholder-shown) + form-label, .input:focus + .form-label{
-    top: 5px !important;
-    left: 15px !important;
+    top: 5px;
+    left: 15px;
     background-color: #fff;
-    color: #000 !important;
+    color: #000;
     transition: 0.25s ease;
 }
 
