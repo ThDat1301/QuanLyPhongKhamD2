@@ -4,8 +4,8 @@
     background-color: #fff;
 }
 
-#navbar li:hover a.nav-link{
-    color: var(--primary-color)!important;
+#navbar > li:hover > a.nav-link{
+    color: var(--primary-color);
 }
 
 #navbar li a {
@@ -15,11 +15,11 @@
     display: block;
 }
 
-#navbar li {
+li.nav-item {
     position: relative;
 }
 
-#navbar li:hover a:after {
+.nav-item:hover > a:after {
     bottom: 0;
     left: 0;
     content: "";
@@ -27,6 +27,37 @@
     height: 2px;
     background-color: var(--primary-color);
     position:absolute;
+}
+
+.nav-link {
+    color: #000;
+}
+
+.nav-link:hover {
+    color: var(--primary-color)
+}
+
+.nav-item:hover .subnav-items{
+    display: block;
+}
+
+.subnav-items {
+    display: none;
+    position: absolute;
+    z-index: 1;
+    background-color: #fff;
+    min-width: 250px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.3);
+    border-radius: 5px;
+    overflow: hidden;
+}
+
+.subnav-item:hover{
+    background-color: var(--primary-color);
+}
+
+.subnav-item:hover a {
+    color: #fff;
 }
 
 .logo-img {
@@ -74,29 +105,57 @@
 
 .auth-dropdown {
     width: 200px;
-    border: 1px solid #dedede;
     display: flex;
     flex-direction: column;
     justify-content: center;
     position: absolute;
-    top: 110%;
-    left: 0;
+    top: 150%;
+    left: -50px;
     background-color: #fff;
     z-index: 2;
     display: none;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgb(0 0 0 / 30%);
 }
 
 .auth-dropdown:before {
     content: "";
     width: 100%;
-    height: 20px;
+    height: 40px;
     position: absolute;
-    top: -10px;
+    top: -25px;
     left: 0;
 }
 
 .auth-form-img img {
     width: 100%;
+}
+
+.auth-dropdown-item a {
+    display: block;
+    text-decoration: none;
+    color: #000;
+}
+
+.auth-dropdown-item:first-child:hover {
+    border-top-right-radius: 5px;
+    border-top-left-radius: 5px;
+}
+
+.auth-dropdown-item:last-child:hover {
+    border-bottom-right-radius: 5px;
+    border-bottom-left-radius: 5px;
+
+}
+
+.auth-dropdown-item:hover {
+    background-color: var(--primary-color);
+
+}
+
+.auth-dropdown-item:hover a{
+    color: #fff;
+
 }
 
 .btn-login a,
@@ -182,8 +241,6 @@
     text-transform: uppercase;
 }
 
-<<<<<<< HEAD
-=======
 /* Dang ky kham */
 
 .patient-check label,
@@ -194,4 +251,34 @@
 
 /* Login */
 
->>>>>>> c24155bd5dcec912711746247e5c026aa32651df
+/* Footer */
+footer {
+    background-color: var(--primary-color);
+    color: #fff;
+}
+
+.footer-menu-list {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+.footer-header{
+    position: relative;
+    padding-bottom: 20px;
+}
+
+.footer-header::after {
+    content: "";
+    width: 20%;
+    height: 4px;
+    background-color: #fff;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+}
+
+.footer-menu-item a{
+    text-decoration: none;
+    color: #fff;
+}

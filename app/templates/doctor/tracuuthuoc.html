@@ -1,0 +1,33 @@
+{% extends 'layout/base.html' %}
+{% block title%}Tra cứu thuốc{% endblock %}
+{% block content %}
+<h1 class="text-center text-color">Tra cứu thuốc</h1>
+<div class="container w-50">
+    <form action="">
+        <div class="mb-3 mt-3">
+            <input type="text" class="form-control" id="medicine" placeholder="Nhập tên thuốc" name="medicine">
+        </div>
+        <button type="submit" class="btn btn-primary">Tìm kiếm</button>
+    </form>
+</div>
+<div class="container">
+    {% if medicines %}
+    <div class="row">
+        {% for m in medicines %}
+        <div class="col-md-3 col-sm-12" style="padding:1rem;">
+            <div class="card">
+                <img class="card-img-top" src="{{ m.image }}" alt="{{ m.name }}">
+                <div class="card-body">
+                    <h4 class="card-title">{{ m.tenThuoc }}</h4>
+                    <p class="card-text">{{ "{:,.1f}".format(m.donGia) }} VNĐ</p>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% else %}
+    <p class="text-success">Không có sản phẩm nào!</p>
+    {% endif %}
+</div>
+
+{% endblock %}

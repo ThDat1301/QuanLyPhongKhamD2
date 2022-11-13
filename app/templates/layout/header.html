@@ -1,4 +1,4 @@
-<nav id="navbar" class="navbar navbar-expand-sm navbar-dark ">
+<nav id="navbar" class="navbar navbar-expand-sm">
     <div class="container">
         <a class="navbar-brand text-dark" href="javascript:void(0)">
             <div class="logo-img">
@@ -11,40 +11,81 @@
         <div class="collapse navbar-collapse" id="mynavbar">
             <ul class="navbar-nav me-auto">
                 <li class="nav-item">
-                    <a class="nav-link text-dark" href="{{ url_for('home') }}">Trang chủ</a>
+                    <a class="nav-link" href="{{ url_for('home') }}">Trang chủ</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link text-dark" href="javascript:void(0)">Dịch vụ</a>
+                    <a class="nav-link" href="javascript:void(0)">Dịch vụ</a>
+                    <ul class="navbar-nav me-auto subnav-items">
+                        <li class="subnav-item">
+                            <a class="nav-link" href="{{ url_for('home') }}">Chuyên khoa tai mũi họng</a>
+                        </li>
+                        <li class="subnav-item">
+                            <a class="nav-link" href="{{ url_for('home') }}">Chuyên khoa răng hàm mặt</a>
+                        </li>
+                         <li class="subnav-item">
+                            <a class="nav-link" href="{{ url_for('home') }}">Chuyên khoa nhi</a>
+                        </li>
+                        <li class="subnav-item">
+                            <a class="nav-link" href="{{ url_for('home') }}">Chuyên khoa phụ sản</a>
+                        </li>
+                        <li class="subnav-item">
+                            <a class="nav-link" href="{{ url_for('home') }}">Chuyên khoa nội tổng quát</a>
+                        </li>
+                         <li class="subnav-item">
+                            <a class="nav-link" href="{{ url_for('home') }}">Chuyên khoa mắt</a>
+                        </li>
+                    </ul>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link text-dark" href="javascript:void(0)">Về chúng tôi</a>
+                    <a class="nav-link" href="javascript:void(0)">Về chúng tôi</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link text-dark" href="javascript:void(0)">Tin tức</a>
+                    <a class="nav-link" href="javascript:void(0)">Tin tức</a>
                 </li>
                 <li class="nav-item check-in">
                      <a href="{{ url_for('make_appointment') }}">Đăng ký khám trực tuyến</a>
                 </li>
 
             </ul>
-            <ul class="navbar-item d-flex justify-content-end align-items-center">
-<!--                <form class="d-flex">-->
-<!--                    <input class="form-control me-2" type="text" placeholder="Nhập từ khoá...">-->
-<!--                    <input class="btn btn-primary" type="button" value="Tìm kiếm">-->
-<!--                </form>-->
-<!--                <div class="check-in">-->
-<!--                    <a class="check-in-link" href="javascript:void(0)">Đăng ký khám trực tuyến</a>-->
+<!--            <ul class="navbar-item d-flex justify-content-end align-items-center">-->
+<!--                <div class="auth-form">-->
+<!--                    <div class="auth-form-img">-->
+<!--                        <img src="{{ url_for('static',filename='images/user.png') }}" alt="user">-->
+<!--                    </div>-->
+<!--                    <div class="auth-form-login">-->
+<!--                        <a href="">Đăng nhập <i class="fa-solid fa-caret-down"></i></a>-->
+<!--                    </div>-->
+<!--                    <div class="auth-dropdown">-->
+<!--                        <div class="btn btn-login"><a href="{{ url_for('login') }}">Đăng nhập</a></div>-->
+<!--                        <div class="btn btn-register"><a href="">Đăng ký</a></div>-->
+<!--                    </div>-->
 <!--                </div>-->
+<!--            </ul>-->
+                <!--Drop down bác sĩ-->
+               <ul class="navbar-item d-flex justify-content-end align-items-center">
                 <div class="auth-form">
                     <div class="auth-form-img">
                         <img src="{{ url_for('static',filename='images/user.png') }}" alt="user">
                     </div>
                     <div class="auth-form-login">
-                        <a href="">Đăng nhập <i class="fa-solid fa-caret-down"></i></a>
+                        <a href="">Bác sĩ <i class="fa-solid fa-caret-down"></i></a>
                     </div>
                     <div class="auth-dropdown">
-                        <div class="btn btn-login"><a href="{{ url_for('login') }}">Đăng nhập</a></div>
-                        <div class="btn btn-register"><a href="">Đăng ký</a></div>
+                        <ul class="auth-dropdown-items clear-ul">
+                            <li class="auth-dropdown-item">
+                                <a href="{{ url_for('tra_cuu_thuoc') }}">Tra cứu thuốc</a>
+                            </li>
+                            <li class="auth-dropdown-item">
+                                <a href="">Xem lịch sử bệnh nhân</a>
+                            </li>
+                            <li class="auth-dropdown-item">
+                                <a href="">Quản lý phiếu khám</a>
+                            </li>
+                            <li class="auth-dropdown-item">
+                                <a href="">Xem phiếu khám</a>
+                            </li>
+                        </ul>
+
                     </div>
                 </div>
             </ul>
