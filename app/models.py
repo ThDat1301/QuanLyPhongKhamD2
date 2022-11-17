@@ -23,8 +23,7 @@ class NguoiDung(db.Model):
     vaiTro = Column(Enum(UserRole), default=UserRole.USER)
     username = Column(String(50), nullable=False)
     password = Column(String(50), nullable=False)
-
-
+    active = Column(Boolean, default=True)
 class BenhNhan(NguoiDung):
     gioiTinh = Column(Boolean, default=True, nullable=False)
     cmnd = Column(String(12), nullable=False)
@@ -32,7 +31,7 @@ class BenhNhan(NguoiDung):
 
 class BacSi (NguoiDung):
     chuyenKhoa = Column(String(50))
-
+    active = Column(Boolean, default=True)
 
 class YTa(NguoiDung):
     pass
@@ -64,7 +63,13 @@ class HoaDon(db.Model):
     tienThuoc = Column(Float, nullable=False)
     ngayBan = Column(Date, nullable=False)
 
+class quanTri(NguoiDung):
+    pass
 
+class User(db.Model, UserMixin):
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    username = Column(String(50), nullable=False)
+    password = Column(String(50), nullable=False)
 if __name__ == '__main__':
     with app.app_context():
         # Tạo bảng
@@ -107,8 +112,20 @@ if __name__ == '__main__':
 
         db.session.commit()
 
-
-
+        # id = Column(Integer, primary_key=True, autoincrement=True)
+        # namSinh = Column(Integer, nullable=False)
+        # diaChi = Column(String(100), nullable=False)
+        # hoTen = Column(String(50), nullable=False)
+        # sdt = Column(String(10), nullable=False)
+        # vaiTro = Column(Enum(UserRole), default=UserRole.USER)
+        # username = Column(String(50), nullable=False)
+        # password = Column(String(50), nullable=False)
+        # ad = User(username="admin", password="123")
+        # db.session.add(ad)
+        # db.session.commit()
+        bs = BacSi(namSinh=2000, diaChi='HCM', hoTen='Văn Trúc Vy', sdt='0366004732', vaiTro=UserRole.DOCTOR, username='string', password='string')
+        db.session.add(bs)
+        db.session.commit()
 
 
 

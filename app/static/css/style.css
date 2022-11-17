@@ -1,7 +1,9 @@
 /*Navbar*/
-
+/*box-shadow: 0 0 10px rgb(0 0 0 / 30%);*/
 #navbar {
     background-color: #fff;
+    box-shadow: 0 0 10px rgb(0 0 0 / 30%);
+    z-index: 1;
 }
 
 #navbar > li:hover > a.nav-link{
