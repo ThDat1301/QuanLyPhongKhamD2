@@ -3,77 +3,31 @@
 <h1 class="text-center text-color">Đặt lịch khám bệnh</h1>
 <div class="container w-50 bg-light p-3">
     <div class="container mt-3">
-        <div class="h4">Bạn muốn đặt hẹn cho</div>
-        <div class="patient-check form-check mb-3 mt-2 d-flex">
-            <label class="form-check-label">
-                <input class="form-check-input" type="radio" name="patient" value="yourself" checked> Bản thân
-            </label>
-            <label class="form-check-label">
-                <input class="form-check-input" type="radio" name="patient" value="other"> Người thân
-            </label>
-        </div>
-        <form class="yourself-form" action="/action_page.php " method="get">
-            <div class="mb-3">
-                <label for="email">Giới tính: </label>
-                <div class="sex-check mt-2">
-                    <label class="form-check-label">
-                        <input class="form-check-input" type="radio" name="sex" checked> Nam
-                    </label>
-                    <label class="form-check-label">
-                        <input class="form-check-input" type="radio" name="sex"> Nữ
-                    </label>
-                </div>
-            </div>
-            <div class="mb-3">
-                <label for="email-y">Email: </label>
-                <input type="text" class="form-control" id="email-y" placeholder="Nhập email..." name="email">
-            </div>
-            <div class="mb-3 d-flex justify-content-between">
-                <div class="w-50 ">
-                    <label for="date-y">Ngày đặt hẹn: </label>
-                    <input type="date" class="form-control" id="date-y" placeholder="" name="date">
-                </div>
-                <div class="w-50">
-                    <label for="time-y">Thời gian: </label>
-                    <input type="time" class="form-control" id="time-y" placeholder="" name="time">
-                </div>
-            </div>
-            <div class="mb-3">
 
-            </div>
-            <div class="mb-3">
-                <label for="time">Mô tả triệu chứng: </label>
-                <textarea style="resize: none; height: 150px" type="text" class="form-control" id="symptom-y"
-                          placeholder="" name="symptom"></textarea>
+        <form class="other-form" action="{{ url_for('make_appointment') }}" method="post">
+             <div class="mb-3 form-floating">
+                <input type="text" class="form-control" id="hoten" placeholder="Nhập họ tên..." name="hoten">
+                <label for="hoten">Họ tên: </label>
             </div>
 
-            <button type="submit" class="btn btn-primary">Đặt</button>
-        </form>
-
-        <form class="other-form" action="/action_page.php " method="get">
-             <div class="mb-3">
-                <label for="name">Họ tên: </label>
-                <input type="text" class="form-control" id="name" placeholder="Nhập họ tên..." name="name">
-            </div>
-
-             <div class="mb-3">
-                <label for="tel">Số điện thoại: </label>
+             <div class="mb-3 form-floating">
                 <input type="tel" class="form-control" id="tel" placeholder="Nhập số điện thoại..." name="tel">
+                <label for="tel">Số điện thoại: </label>
+            </div>
+             <div class="mb-3 ">
+                <label for="date">Ngày sinh: </label>
+                <input type="date" class="form-control" id="birthdate" placeholder="" name="birthdate">
             </div>
             <div class="mb-3">
-                <label for="email">Giới tính: </label>
+                <label>Giới tính: </label>
                 <div class="sex-check mt-2">
                     <label class="form-check-label">
-                        <input class="form-check-input" type="radio" name="sex" checked> Nam
+                        <input class="form-check-input" type="radio" name="sex" checked value='Nam'> Nam
                     </label>
                     <label class="form-check-label">
-                        <input class="form-check-input" type="radio" name="sex"> Nữ
+                        <input class="form-check-input" type="radio" name="sex"value='Nữ'> Nữ
                     </label>
                 </div>
-            </div>
-            <div class="mb-3">
-                <label for="email">Email: </label>
-                <input type="text" class="form-control" id="email" placeholder="Nhập email..." name="email">
             </div>
             <div class="mb-3 d-flex justify-content-between">
                 <div class="w-50 ">

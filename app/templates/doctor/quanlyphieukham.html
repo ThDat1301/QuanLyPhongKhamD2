@@ -1,0 +1,67 @@
+{% extends 'layout/base.html' %}
+{% block title%}Quản lý phiếu khám{% endblock %}
+{% block content %}
+<h1 class="text-center text-color">Quản lý phiếu khám</h1>
+<div class="container">
+    <!--    <table class="table-phieukham table table-bordered" style="background-color: #f5f5f5">-->
+    <!--        <thead>-->
+    <!--        <tr>-->
+    <!--            <th class="text-center" colspan="5">PHIẾU KHÁM BỆNH</th>-->
+    <!--        </tr>-->
+    <!--        </thead>-->
+    <!--        <tbody>-->
+    <!--        <tr>-->
+    <!--            <td colspan="3">Họ tên:-->
+    <!--                <input class="w-75 input-transparent" type="text">-->
+    <!--            </td>-->
+    <!--            <td colspan="2">Ngày khám:-->
+    <!--                <input class="w-75 input-transparent" type="date">-->
+    <!--            </td>-->
+    <!--        </tr>-->
+    <!--        <tr>-->
+    <!--            <td class="w-50" colspan="3">Triệu chứng:-->
+    <!--                <input class="w-75 input-transparent" type="text">-->
+    <!--            </td>-->
+    <!--            <td colspan="3">Dự đoán loại bệnh:-->
+    <!--                <input class="w-75 input-transparent" type="text">-->
+    <!--            </td>-->
+    <!--        </tr>-->
+    <!--        <tr style="font-weight: bold">-->
+    <!--            <td>STT</td>-->
+    <!--            <td>Thuốc</td>-->
+    <!--            <td>Đơn vị</td>-->
+    <!--            <td>Số lượng</td>-->
+    <!--            <td>Cách dùng</td>-->
+    <!--        </tr>-->
+    <!--        </tbody>-->
+
+    <!--    </table>-->
+    <div class="container w-50 bg-light p-3">
+        <div class="container mt-3">
+            <form class="lap-phieu-kham-form" action="/action_page.php " method="get">
+                <div class="form-floating mb-3">
+                    <input type="text" class="form-control" id="name" placeholder="Nhập tên" name="name">
+                    <label for="name">Họ tên</label>
+                </div>
+                <div class="form-floating mb-3">
+                    <input type="date" class="form-control" id="date" name="date">
+                    <label for="date">Ngày khám</label>
+                </div>
+                <div class="form-floating mb-3">
+                    <input type="text" class="form-control" id="trieu-chung" placeholder="Nhập triệu chứng" name="trieu-chung">
+                    <label for="trieu-chung">Triệu chứng</label>
+                </div>
+                <div class="form-floating mb-3">
+                    <input type="text" class="form-control" id="du-doan"  placeholder="Nhập dự đoán" name="du-doan">
+                    <label for="du-doan">Dự đoán</label>
+                </div>
+
+                <button type="submit" class="btn btn-primary">Lập phiếu khám</button>
+            </form>
+
+
+
+        </div>
+    </div>
+</div>
+{% endblock %}

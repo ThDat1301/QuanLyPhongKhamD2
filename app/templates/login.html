@@ -1,29 +1,43 @@
 {% extends 'layout/base.html' %}
 {% block title%}Đăng nhập{% endblock %}
 {% block content %}
-<div class="login-form">
-    <div class="container-login">
-        <h1 class="text">Đăng nhập</h1>
-        <form action="#">
-            <div class="data">
-                <input class="input" type="text" placeholder=" " required>
-                <label class="form-label">Email hoặc số điện thoại</label>
+<div class="form-login-body">
+    <div class="form-login-container">
+
+        <div class="login-right">
+            <img src="{{ url_for('static', filename='images/hospital.jpg') }}">
+        </div>
+        <div class="login-left">
+            <div class="login-header">Đăng nhập</div>
+            {% if err_msg %}
+            <div class="alert alert-danger">
+                <h4>{{ err_msg }}</h4>
             </div>
-            <div class="data">
-                <input class="input" type="password" placeholder=" " required>
-                <label class="form-label" >Mật khẩu</label>
-            </div>
-            <div class="forgot-password">
-                <a href="#">Quên mật khẩu?</a>
-            </div>
-            <div class="btn-submit">
-                <button type="submit">Đăng nhập</button>
-            </div>
-            <div class="signup-link text-center">
-                Chưa có tài khoản?
-                <a href="#">Đăng ký ngay</a>
-            </div>
-        </form>
+            {% endif %}
+            <form method="post" action="{{ url_for('login') }}" class="login-form">
+                <div class="login-form-content">
+                    <div class="form-item form-floating mb-3 mt-4">
+                        <input type="text" class="form-control" id="username" required placeholder="Nhập tên đăng nhập" name="username">
+                        <label for="username">Nhập tên đăng nhập</label>
+                    </div>
+
+                    <div class="form-item form-floating mt-4 mb-3">
+                        <input type="password" class="form-control" id="password" required placeholder="Nhập mật khẩu" name="password">
+                        <label for="password">Nhập mật khẩu</label>
+                    </div>
+                    <div class="form-item mt-4">
+                        <div class="check-box">
+                            <input type="checkbox" id="RmbCheckBox"/>
+                            <label for="RmbCheckBox" id="lbCheckBox">Nhớ mật khẩu</label>
+                        </div>
+                    </div>
+                    <input class="btn btn-success w-100 p-3 mt-4" type="submit" value="Đăng nhập"/>
+                </div>
+            </form>
+        </div>
+
+
+
     </div>
 </div>
 {% endblock %}
