@@ -15,15 +15,15 @@
         </tr>
     </thead>
     <tbody>
+        {% for patient in patients %}
         <tr>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
+            <td>{{ patient.id }}</td>
+            <td>{{ patient.hoTen }}</td>
+            <td>{{ patient.sdt }}</td>
+            <td>{{ patient.ngaySinh }}</td>
+            <td>{{ patient.gioiTinh }}</td>
         </tr>
-
+        {% endfor %}
     </tbody>
 
 </table>

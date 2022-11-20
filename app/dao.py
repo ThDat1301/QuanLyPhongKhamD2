@@ -1,9 +1,10 @@
+import datetime
 import hashlib
 
-from app.models import TaiKhoan, UserRole, BacSi, NguoiDung, ChiTietDSKham, DanhSachKham
-
+from app.models import TaiKhoan, UserRole, BacSi, NguoiDung, DanhSachKham, BenhNhan
+from sqlalchemy import func
 from app.models import Thuoc
-from app import db
+from app import db, app
 
 
 def load_medicine(medicine=None):
@@ -36,11 +37,34 @@ def add_dsKham():
     db.session.commit()
 
 
+def get_ds_kham_by_id(dskhamid):
+    return DanhSachKham.query.get(dskhamid)
+
+
+def chk_patient():
+    num = db.session.query(BenhNhan.id).join(DanhSachKham).filter(DanhSachKham.ngayKham == datetime.date.today())
+    limit = db.session.query(DanhSachKham.soLuong).filter(DanhSachKham.ngayKham == datetime.date.today()).first().soLuong
+    if num.count() <= limit:
+        return True
+    return False
+
+
+def load_patient():
+    patients = db.session.query(BenhNhan).all()
+    return patients
+
+
 def add_patient(hoTen, sdt, ngaySinh, gioiTinh):
-    benh_nhan = ChiTietDSKham(hoTen=hoTen,
+    benh_nhan = BenhNhan(hoTen=hoTen,
                               sdt=sdt,
                               ngaySinh=ngaySinh,
                               gioiTinh=gioiTinh,
                               dsKhamId=1)
     db.session.add(benh_nhan)
     db.session.commit()
+#
+
+
+
+
+
