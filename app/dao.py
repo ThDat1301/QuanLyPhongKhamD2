@@ -1,10 +1,11 @@
 import datetime
 import hashlib
 
-from app.models import TaiKhoan, UserRole, BacSi, NguoiDung, DanhSachKham, BenhNhan
+from app.models import TaiKhoan, UserRole, BacSi, NguoiDung, DanhSachKham, BenhNhan, Thuoc, PhieuKhamBenh, \
+    PhieuKhamBenh_Thuoc
 from sqlalchemy import func
-from app.models import Thuoc
 from app import db, app
+from datetime import date
 
 
 def load_medicine(medicine=None):
@@ -27,12 +28,13 @@ def check_login(username, password):
 
 def check_name_user(username):
     if username:
-        result = db.session.query(NguoiDung.hoTen).join(TaiKhoan).filter(username.nguoiDungId == TaiKhoan.nguoiDungId).first()
+        result = db.session.query(NguoiDung.hoTen).join(TaiKhoan).filter(
+            username.nguoiDungId == TaiKhoan.nguoiDungId).first()
         return result.hoTen
 
 
-def add_dsKham():
-    dsKham = DanhSachKham()
+def add_dsKham(ngayKham):
+    dsKham = DanhSachKham(ngayKham=ngayKham)
     db.session.add(dsKham)
     db.session.commit()
 
@@ -41,11 +43,35 @@ def get_ds_kham_by_id(dskhamid):
     return DanhSachKham.query.get(dskhamid)
 
 
-def chk_patient():
-    num = db.session.query(BenhNhan.id).join(DanhSachKham).filter(DanhSachKham.ngayKham == datetime.date.today())
-    limit = db.session.query(DanhSachKham.soLuong).filter(DanhSachKham.ngayKham == datetime.date.today()).first().soLuong
-    if num.count() <= limit:
+def chk_patient(day):
+    num = db.session.query(BenhNhan.id).join(DanhSachKham).filter(DanhSachKham.ngayKham == day)
+    limit = db.session.query(DanhSachKham.soLuong).filter(DanhSachKham.ngayKham == day).first()
+    if num.count() <= limit.soLuong:
         return True
+    return False
+
+
+def load_patients_by_list(ds):
+    patients = db.session.query(BenhNhan).filter(BenhNhan.dsKhamId == ds.id).all()
+    return patients
+
+
+def get_patient_by_sdt(sdt):
+    return BenhNhan.query.filter(BenhNhan.sdt == sdt).first()
+
+
+def load_dskham():
+    return DanhSachKham.query.all()
+
+
+def load_dskham_by_date(day):
+    return DanhSachKham.query.filter(DanhSachKham.ngayKham == day).first()
+
+
+def get_id_dskham_by_date(date):
+    ds = DanhSachKham.query.filter(DanhSachKham.ngayKham == date).first()
+    if ds:
+        return ds.id
     return False
 
 
@@ -54,17 +80,48 @@ def load_patient():
     return patients
 
 
-def add_patient(hoTen, sdt, ngaySinh, gioiTinh):
+def add_patient(hoTen, sdt, ngaySinh, gioiTinh, diaChi, dsKhamId):
     benh_nhan = BenhNhan(hoTen=hoTen,
-                              sdt=sdt,
-                              ngaySinh=ngaySinh,
-                              gioiTinh=gioiTinh,
-                              dsKhamId=1)
+                         sdt=sdt,
+                         ngaySinh=ngaySinh,
+                         gioiTinh=gioiTinh,
+                         diaChi=diaChi,
+                         dsKhamId=dsKhamId)
     db.session.add(benh_nhan)
     db.session.commit()
-#
 
 
+def count_medicines(medicines):
+    total_quantity, total_ammount = 0, 0
+    if medicines:
+        for m in medicines.values():
+            total_quantity += m.get('soLuongThem')
+            total_ammount += m.get('soLuongThem') * m.get('donGia')
+    return {
+        'total_quantity': total_quantity,
+        'total_ammount': total_ammount
+    }
 
 
+def add_report(patient, ngayKhamBenh, trieuChung, duDoanBenh):
+    report = PhieuKhamBenh(benhNhanId=patient.id,
+                           ngayKhamBenh=ngayKhamBenh,
+                           trieuChung=trieuChung,
+                           duDoanBenh=duDoanBenh)
+    db.session.add(report)
+    db.session.commit()
 
+
+def add_medicines_to_report(medicines, report):
+    if medicines:
+        for m in medicines.values():
+            report_details = PhieuKhamBenh_Thuoc(soLuong=m.get('soLuongThem'),
+                                                 thuoc_id=m.get('id'),
+                                                 phieukhambenh_id=report.id)
+            db.session.add(report_details)
+        db.session.commit()
+
+
+def get_phieu_kham_by_date_patient_id(day, patient_id):
+    return PhieuKhamBenh.query.filter(PhieuKhamBenh.ngayKhamBenh == day
+                                      and PhieuKhamBenh.benhNhanId == patient_id).first()

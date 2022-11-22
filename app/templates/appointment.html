@@ -3,28 +3,32 @@
 <h1 class="text-center text-color">Đặt lịch khám bệnh</h1>
 <div class="container w-50 bg-light p-3">
     <div class="container mt-3">
-        {% if msg %}
+        {% if msg and success%}
             <div class="alert alert-success" role="alert">
                 {{ msg }}
             </div>
-        {% else %}
+        {% elif msg and not success %}
              <div class="alert alert-danger" role="alert">
                 {{ msg }}
             </div>
         {% endif %}
         <form class="other-form" action="{{ url_for('make_appointment') }}" method="post">
              <div class="mb-3 form-floating">
-                <input type="text" class="form-control" id="hoten" placeholder="Nhập họ tên..." name="hoten">
+                <input type="text" class="form-control" id="hoten" placeholder="Nhập họ tên..." name="hoten" required>
                 <label for="hoten">Họ tên: </label>
             </div>
 
              <div class="mb-3 form-floating">
-                <input type="tel" class="form-control" id="tel" placeholder="Nhập số điện thoại..." name="tel">
+                <input type="tel" class="form-control" id="tel" placeholder="Nhập số điện thoại..." name="tel"required>
                 <label for="tel">Số điện thoại: </label>
             </div>
+             <div class="mb-3 form-floating">
+                <input type="text" class="form-control" id="address" placeholder="Nhập địa chỉ..." name="address">
+                <label for="address">Địa chỉ: </label>
+            </div>
              <div class="mb-3 ">
-                <label for="date">Ngày sinh: </label>
-                <input type="date" class="form-control" id="birthdate" placeholder="" name="birthdate">
+                <label for="birthdate">Ngày sinh: </label>
+                <input type="date" class="form-control" id="birthdate" placeholder="" name="birthdate"required>
             </div>
             <div class="mb-3">
                 <label>Giới tính: </label>
@@ -37,25 +41,10 @@
                     </label>
                 </div>
             </div>
-            <div class="mb-3 d-flex justify-content-between">
-                <div class="w-50 ">
-                    <label for="date">Ngày đặt hẹn: </label>
-                    <input type="date" class="form-control" id="date" placeholder="" name="date">
-                </div>
-                <div class="w-50">
-                    <label for="time">Thời gian: </label>
-                    <input type="time" class="form-control" id="time" placeholder="" name="time">
-                </div>
+            <div class="mb-3 ">
+                <label for="date">Ngày đặt hẹn: </label>
+                <input type="date" class="form-control" id="date" placeholder="" name="date" required>
             </div>
-            <div class="mb-3">
-
-            </div>
-            <div class="mb-3">
-                <label for="time">Mô tả triệu chứng: </label>
-                <textarea style="resize: none; height: 150px" type="text" class="form-control" id="symptom"
-                          placeholder="" name="symptom"></textarea>
-            </div>
-
             <button type="submit" class="btn btn-primary">Đặt</button>
         </form>
 

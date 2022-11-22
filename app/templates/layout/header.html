@@ -42,9 +42,11 @@
                 <li class="nav-item">
                     <a class="nav-link" href="javascript:void(0)">Tin tức</a>
                 </li>
+                {% if not current_user.is_authenticated or current_user.isNurse() %}
                 <li class="nav-item check-in">
                     <a href="{{ url_for('make_appointment') }}">Đăng ký khám trực tuyến</a>
                 </li>
+                {% endif %}
 
             </ul>
             {% if not current_user.is_authenticated %}
@@ -79,7 +81,7 @@
                                 <a href="">Xem lịch sử bệnh nhân</a>
                             </li>
                             <li class="auth-dropdown-item">
-                                <a href="{{ url_for('quan_ly_phieu_kham') }}">Quản lý phiếu khám</a>
+                                <a href="{{ url_for('lap_phieu_kham') }}">Lập phiếu khám</a>
                             </li>
                             <li class="auth-dropdown-item">
                                 <a href="">Xem phiếu khám</a>

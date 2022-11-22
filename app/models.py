@@ -85,18 +85,19 @@ class BenhNhan(db.Model):
     sdt = Column(String(10), nullable=False)
     ngaySinh = Column(Date, nullable=False)
     gioiTinh = Column(String(10), nullable=False)
+    diaChi = Column(String(100))
     dsKhamId = Column(Integer, ForeignKey(DanhSachKham.id), nullable=False)
     phieuKhamBenh = relationship('PhieuKhamBenh', backref='benhnhan', lazy=True)
 
 
-phieukhambenh_thuoc = db.Table('phieukhambenh_thuoc',
-                           Column('phieuKhamBenhId', Integer,
-                                  ForeignKey('phieukhambenh.id'),
-                                  primary_key=True),
-                           Column('thuocId', Integer,
-                                  ForeignKey('thuoc.id'),
-                                  primary_key=True)
-                           )
+# phieukhambenh_thuoc = db.Table('phieukhambenh_thuoc',
+#                            Column('phieuKhamBenhId', Integer,
+#                                   ForeignKey('phieukhambenh.id'),
+#                                   primary_key=True),
+#                            Column('thuocId', Integer,
+#                                   ForeignKey('thuoc.id'),
+#                                   primary_key=True)
+#                            )
 
 
 class PhieuKhamBenh(db.Model):
@@ -106,10 +107,7 @@ class PhieuKhamBenh(db.Model):
     trieuChung = Column(String(200), nullable=False)
     duDoanBenh = Column(String(200), nullable=False)
     benhNhanId = Column(Integer, ForeignKey(BenhNhan.id), nullable=False)
-    thuoc = relationship('Thuoc',
-                         secondary='phieukhambenh_thuoc',
-                         lazy='subquery',
-                         backref=backref('phieukhambenh', lazy=True))
+    thuoc = relationship('PhieuKhamBenh_Thuoc', backref='phieukhambenh')
     hoaDon = relationship('HoaDon', backref='phieukhambenh', lazy=True)
 
 
@@ -119,9 +117,18 @@ class Thuoc(db.Model):
     tenThuoc = Column(String(50), nullable=False)
     donVi = Column(String(50), nullable=False)
     donGia = Column(Float, nullable=False)
+    soLuong = Column(Integer, default=100, nullable=False)
     image = Column(String(200))
     active = Column(Boolean, default=True)
+    phieuKhamBenh = relationship('PhieuKhamBenh_Thuoc', backref='thuoc')
 
+
+class PhieuKhamBenh_Thuoc(db.Model):
+    __table__name = 'phieukhambenh_thuoc'
+    phieukhambenh_id = Column(ForeignKey(PhieuKhamBenh.id), primary_key=True)
+    thuoc_id = Column(ForeignKey(Thuoc.id), primary_key=True)
+    soLuong = Column(Integer, nullable=False)
+    cachDung = Column(String(200))
 
 class HoaDon(db.Model):
     __tablename__ = 'hoadon'
@@ -172,7 +179,7 @@ if __name__ == '__main__':
 
         bs = BacSi(namSinh=2002, diaChi='Bình Tân', hoTen='Lê Minh Đức', sdt='0123456790', chuyenKhoa='Mat')
         tkbs = TaiKhoan(vaiTro=UserRole.DOCTOR, username='duc', password='1', nguoiDungId='1')
-        yta = YTa(namSinh=2002, diaChi='Bình Tân', hoTen='Truonng Thành Đạt', sdt='0123456790', chungChi='E')
+        yta = YTa(namSinh=2002, diaChi='Bình Tân', hoTen='Trương Thành Đạt', sdt='0123456790', chungChi='E')
         tkyta = TaiKhoan(vaiTro=UserRole.NURSE, username='dat', password='1', nguoiDungId=2)
         db.session.add_all([bs, tkbs, yta, tkyta])
         db.session.commit()

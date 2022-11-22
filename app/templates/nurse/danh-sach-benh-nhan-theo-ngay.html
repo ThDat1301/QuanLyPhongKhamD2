@@ -1,0 +1,39 @@
+{% extends 'layout/base.html' %}
+{% block title%}Danh sách bệnh nhân ngày {{ ds.ngayKham.strftime('%d-%m-%Y') }} {% endblock %}
+{% block content %}
+<div class="container list_patient_by_day" style="height: 50vh">
+    <h1 class="text-center text-color mt-3">Danh sách bệnh nhân ngày {{ ds.ngayKham.strftime('%d-%m-%Y') }}</h1>
+    <table class="table-phieukham table table-bordered" style="background-color: #f5f5f5">
+        <thead>
+        <tr>
+            <th>STT</th>
+            <th>Họ tên</th>
+            <th>SĐT</th>
+            <th>Giới tính</th>
+            <th>Năm sinh</th>
+            <th>Địa chỉ</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% set num = namespace(value=1) %}
+        {% for patient in patients %}
+        <tr>
+            <td>{{ num.value }}</td>
+            <td>{{ patient.hoTen }}</td>
+            <td>{{ patient.sdt }}</td>
+            <td>{{ patient.gioiTinh }}</td>
+            <td>{{ patient.ngaySinh.strftime('%d-%m-%Y') }}</td>
+            <td>{{ patient.diaChi }}</td>
+        </tr>
+        {% set num.value = num.value + 1 %}
+        {% endfor %}
+        </tbody>
+
+    </table>
+
+</div>
+<div class="container mb-3">
+    <input class='btn btn-root d-flex justify-content-center' type="button" value="In danh sách khám" onclick="print_list_patient()">
+</div>
+
+{% endblock %}

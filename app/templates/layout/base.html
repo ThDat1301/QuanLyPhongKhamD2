@@ -17,7 +17,6 @@
             integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
             crossorigin="anonymous"></script>
     <script src="https://kit.fontawesome.com/5f1e929776.js" crossorigin="anonymous"></script>
-
     {% block css %} {% endblock %}
 </head>
 <body>
@@ -33,6 +32,7 @@
 
     {% block js %}
     <script src="{{ url_for('static', filename='js/scripts.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/cart.js') }}"></script>
     {% endblock %}
 </body>
 </html>

@@ -16,6 +16,16 @@ html {
     color: var(--primary-color)
 }
 
+.btn-root {
+    background-color: var(--primary-color);
+    color: #fff;
+}
+
+.btn-root:hover {
+    background-color: #1d3479;
+    color: #fff;
+}
+
 .btn {
     min-width: 90px;
 }

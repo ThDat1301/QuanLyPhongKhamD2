@@ -1,0 +1,134 @@
+{% extends 'layout/base.html' %}
+{% block title%}Lập phiếu khám{% endblock %}
+{% block content %}
+<h1 class="text-center text-color mt-3">Lập phiếu khám</h1>
+<div class="container">
+    <!--    <table class="table-phieukham table table-bordered" style="background-color: #f5f5f5">-->
+    <!--        <thead>-->
+    <!--        <tr>-->
+    <!--            <th class="text-center" colspan="5">PHIẾU KHÁM BỆNH</th>-->
+    <!--        </tr>-->
+    <!--        </thead>-->
+    <!--        <tbody>-->
+    <!--        <tr>-->
+    <!--            <td colspan="3">Họ tên:-->
+    <!--                <input class="w-75 input-transparent" type="text">-->
+    <!--            </td>-->
+    <!--            <td colspan="2">Ngày khám:-->
+    <!--                <input class="w-75 input-transparent" type="date">-->
+    <!--            </td>-->
+    <!--        </tr>-->
+    <!--        <tr>-->
+    <!--            <td class="w-50" colspan="3">Triệu chứng:-->
+    <!--                <input class="w-75 input-transparent" type="text">-->
+    <!--            </td>-->
+    <!--            <td colspan="3">Dự đoán loại bệnh:-->
+    <!--                <input class="w-75 input-transparent" type="text">-->
+    <!--            </td>-->
+    <!--        </tr>-->
+    <!--        <tr style="font-weight: bold">-->
+    <!--            <td>STT</td>-->
+    <!--            <td>Thuốc</td>-->
+    <!--            <td>Đơn vị</td>-->
+    <!--            <td>Số lượng</td>-->
+    <!--            <td>Cách dùng</td>-->
+    <!--        </tr>-->
+    <!--        </tbody>-->
+
+    <!--    </table>-->
+    <div class="container w-100 bg-light p-3 d-flex">
+        <div class="container mt-3">
+            <form class="lap-phieu-kham-form" action="{{ url_for('lap_phieu_kham') }}" method="post">
+                {% if msg and success%}
+                <div class="alert alert-success" role="alert">
+                    {{ msg }}
+                </div>
+                {% elif msg and not success %}
+                <div class="alert alert-danger" role="alert">
+                    {{ msg }}
+                </div>
+                {% endif %}
+                <div class="form-floating mb-3">
+                    <input type="text" class="form-control" id="name" placeholder="Nhập tên" name="name" required>
+                    <label for="name">Họ tên</label>
+                </div>
+                <div class="form-floating mb-3">
+                    <input type="tel" class="form-control" id="sdt" placeholder="Nhập số điện thoại" name="sdt" required>
+                    <label for="sdt">Số điện thoại</label>
+                </div>
+                <div class="form-floating mb-3">
+                    <input type="date" class="form-control" id="date" name="date" required>
+                    <label for="date">Ngày khám</label>
+                </div>
+                <div class="form-floating mb-3">
+                    <input type="text" class="form-control" id="trieu-chung" placeholder="Nhập triệu chứng"
+                           name="trieu-chung" required>
+                    <label for="trieu-chung">Triệu chứng</label>
+                </div>
+                <div class="form-floating mb-3">
+                    <input type="text" class="form-control" id="du-doan" placeholder="Nhập dự đoán" name="du-doan" required>
+                    <label for="du-doan">Dự đoán</label>
+                </div>
+                <h3>Danh sách thuốc</h3>
+                {% if 'medicines' in session and session['medicines'] %}
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th>Tên thuốc</th>
+                        <th>Đơn vị</th>
+                        <th>Đơn giá</th>
+                        <th>Số lượng</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for m in session['medicines'].values() %}
+                    <tr>
+                        <td>{{ m.tenThuoc }}</td>
+                        <td>{{ m.donVi }}</td>
+                        <td>{{ m.donGia }}</td>
+                        <td><input type="number" name="" id="" value="{{ m.soLuongThem }}"></td>
+                    </tr>
+                    {% endfor %}
+                    </tbody>
+
+                </table>
+                {% endif %}
+                <button type="submit" class="btn btn-root">Lập phiếu khám</button>
+            </form>
+        </div>
+        <div class="container mt-3">
+            <form action="">
+                <div class="mb-3 mt-3">
+                    <input type="text" class="form-control" id="medicine" placeholder="Nhập tên thuốc" name="medicine">
+                </div>
+                <button type="submit" class="btn btn-primary">Tìm kiếm</button>
+            </form>
+            <div class="container">
+                {% if medicines %}
+                <div class="row">
+                    {% for m in medicines %}
+                    <div class="card mt-3">
+                        <div class="row no-gutters">
+                            <div class="col-md-4">
+                                <img src="{{ m.image }}" class="card-img" alt="{{ m.tenThuoc }}">
+                            </div>
+                            <div class="col-md-6">
+                                <div class="card-body">
+                                    <h5 class="card-title">{{ m.tenThuoc }}</h5>
+                                    <p class="card-text">Giá: {{ "{:,.1f}".format(m.donGia) }} VNĐ</p>
+                                </div>
+                            </div>
+                            <input class="btn btn-root col-md-2" type="button" value="Thêm" style="height: 50px"
+                                   onclick="addToReport({{ m.id }}, '{{ m.tenThuoc }}', '{{ m.donVi }}', {{ m.donGia }})">
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+                {% else %}
+                <p class="text-success">Không có sản phẩm nào!</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
