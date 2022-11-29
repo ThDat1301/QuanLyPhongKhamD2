@@ -12,7 +12,7 @@
 </div>
 <div class="container">
     {% if medicines %}
-    <div class="row">
+    <div class="row align-items-end">
         {% for m in medicines %}
         <div class="col-md-3 col-sm-12" style="padding:1rem;">
             <div class="card">
@@ -21,6 +21,8 @@
                     <h4 class="card-title">{{ m.tenThuoc }}</h4>
                     <h4 class="card-title">ID: {{ m.id }}</h4>
                     <p class="card-text">Giá: {{ "{:,.1f}".format(m.donGia) }} VNĐ</p>
+                    <input class="btn btn-root col-md-2" type="button" value="Thêm" style="height: 50px"
+                           onclick="addToReport({{ m.id }}, '{{ m.tenThuoc }}', '{{ m.donVi }}', {{ m.donGia }})">
                 </div>
             </div>
         </div>

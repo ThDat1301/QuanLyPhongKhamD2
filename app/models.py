@@ -86,6 +86,7 @@ class BenhNhan(db.Model):
     ngaySinh = Column(Date, nullable=False)
     gioiTinh = Column(String(10), nullable=False)
     diaChi = Column(String(100))
+    cccd = Column(String(12), nullable=False, unique=True)
     dsKhamId = Column(Integer, ForeignKey(DanhSachKham.id), nullable=False)
     phieuKhamBenh = relationship('PhieuKhamBenh', backref='benhnhan', lazy=True)
 

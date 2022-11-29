@@ -56,8 +56,8 @@ def load_patients_by_list(ds):
     return patients
 
 
-def get_patient_by_sdt(sdt):
-    return BenhNhan.query.filter(BenhNhan.sdt == sdt).first()
+def get_patient_by_cccd(cccd):
+    return BenhNhan.query.filter(BenhNhan.cccd == cccd).first()
 
 
 def load_dskham():
@@ -80,8 +80,9 @@ def load_patient():
     return patients
 
 
-def add_patient(hoTen, sdt, ngaySinh, gioiTinh, diaChi, dsKhamId):
+def add_patient(hoTen, sdt, ngaySinh, gioiTinh, diaChi, dsKhamId, cccd):
     benh_nhan = BenhNhan(hoTen=hoTen,
+                         cccd=cccd,
                          sdt=sdt,
                          ngaySinh=ngaySinh,
                          gioiTinh=gioiTinh,
@@ -125,3 +126,5 @@ def add_medicines_to_report(medicines, report):
 def get_phieu_kham_by_date_patient_id(day, patient_id):
     return PhieuKhamBenh.query.filter(PhieuKhamBenh.ngayKhamBenh == day
                                       and PhieuKhamBenh.benhNhanId == patient_id).first()
+
+
