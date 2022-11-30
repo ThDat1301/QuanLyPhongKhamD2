@@ -4,7 +4,8 @@ from sqlalchemy import Column, String, Integer, Boolean, Date, Float, ForeignKey
 from enum import Enum as UserEnum
 from sqlalchemy.orm import relationship, backref
 from flask_login import UserMixin, current_user
-from app import app, db, dao
+from app import app, db
+from app import dao
 
 
 class UserRole(UserEnum):

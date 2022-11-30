@@ -246,7 +246,13 @@ li.nav-item {
     font-size: 1.5rem;
     text-transform: uppercase;
 }
-
+.card-name{
+    height: 30px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    /*-webkit-line-clamp: 2;*/
+}
 /* Dang ky kham */
 
 .patient-check label,
