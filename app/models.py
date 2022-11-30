@@ -41,7 +41,9 @@ class TaiKhoan(db.Model, UserMixin):
     def isNurse(self):
         if self.vaiTro == UserRole.NURSE:
             return True
-
+    def isAdmin(self):
+        if self.vaiTro == UserRole.ADMIN:
+            return True
     def hoTen(self):
         return dao.check_name_user(self)
 
@@ -49,6 +51,8 @@ class TaiKhoan(db.Model, UserMixin):
 class BacSi(NguoiDung):
     chuyenKhoa = Column(String(50))
 
+# class QuanTri(NguoiDung):
+#     pass
 
 class YTa(NguoiDung):
     chungChi = Column(String(50))
@@ -180,10 +184,12 @@ if __name__ == '__main__':
         db.create_all()
 
         bs = BacSi(namSinh=2002, diaChi='Bình Tân', hoTen='Lê Minh Đức', sdt='0123456790', chuyenKhoa='Mat')
-        tkbs = TaiKhoan(vaiTro=UserRole.DOCTOR, username='duc', password='1', nguoiDungId='1')
+        tkbs = TaiKhoan(vaiTro=UserRole.DOCTOR, username='duc', password='1', nguoiDungId=1)
         yta = YTa(namSinh=2002, diaChi='Bình Tân', hoTen='Trương Thành Đạt', sdt='0123456790', chungChi='E')
         tkyta = TaiKhoan(vaiTro=UserRole.NURSE, username='dat', password='1', nguoiDungId=2)
-        db.session.add_all([bs, tkbs, yta, tkyta])
+        ad = BacSi(namSinh=2002, diaChi='Bình Tân', hoTen='Văn Trúc Vy', sdt='0123456790', chuyenKhoa='Khong')
+        tkad = TaiKhoan(vaiTro=UserRole.ADMIN, username='vy', password='1', nguoiDungId=3)
+        db.session.add_all([bs, tkbs, yta, tkyta, ad, tkad])
         db.session.commit()
 # Tạo bảng
 

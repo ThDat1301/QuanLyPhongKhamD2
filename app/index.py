@@ -50,7 +50,6 @@ def login():
     if request.method.__eq__('POST'):
         username = request.form.get('username')
         password = request.form.get('password')
-        # return redirect('/')
         user = dao.check_login(username=username, password=password)
         if user:
             login_user(user=user)
