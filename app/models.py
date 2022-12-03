@@ -4,7 +4,8 @@ from sqlalchemy import Column, String, Integer, Boolean, Date, Float, ForeignKey
 from enum import Enum as UserEnum
 from sqlalchemy.orm import relationship, backref
 from flask_login import UserMixin, current_user
-from app import app, db, dao
+from app import app, db
+from app import dao
 
 
 
@@ -186,13 +187,13 @@ if __name__ == '__main__':
     with app.app_context():
         db.create_all()
 
-        # bs = BacSi(namSinh=2002, diaChi='Bình Tân', hoTen='Lê Minh Đức', sdt='0123456790', chuyenKhoa='Mat')
-        # tkbs = TaiKhoan(vaiTro=UserRole.DOCTOR, username='duc', password='1', nguoiDungId=1)
-        # yta = YTa(namSinh=2002, diaChi='Bình Tân', hoTen='Trương Thành Đạt', sdt='0123456790', chungChi='E')
-        # tkyta = TaiKhoan(vaiTro=UserRole.NURSE, username='dat', password='1', nguoiDungId=2)
-        # ad = BacSi(namSinh=2002, diaChi='Bình Tân', hoTen='Văn Trúc Vy', sdt='0123456790', chuyenKhoa='Khong')
+        bs = BacSi(namSinh=2002, diaChi='Bình Tân', hoTen='Lê Minh Đức', sdt='0123456790', chuyenKhoa='Mat')
+        tkbs = TaiKhoan(vaiTro=UserRole.DOCTOR, username='duc', password='1', nguoiDungId=1)
+        yta = YTa(namSinh=2002, diaChi='Bình Tân', hoTen='Trương Thành Đạt', sdt='0123456790', chungChi='E')
+        tkyta = TaiKhoan(vaiTro=UserRole.NURSE, username='dat', password='1', nguoiDungId=2)
+        ad = BacSi(namSinh=2002, diaChi='Bình Tân', hoTen='Văn Trúc Vy', sdt='0123456790', chuyenKhoa='Khong')
         tkad = TaiKhoan(vaiTro=UserRole.ADMIN, username='vy', password='1', nguoiDungId=3)
-        db.session.add_all([ tkad])
+        db.session.add_all([bs, tkbs, yta, tkyta, ad, tkad])
         db.session.commit()
 # Tạo bảng
 
