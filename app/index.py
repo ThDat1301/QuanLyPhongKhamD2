@@ -195,7 +195,28 @@ def delete_medicines(medicine_id):
     return jsonify(dao.count_medicines(medicines))
 
 
+@app.route('/xem-lich-su-benh-nhan')
+def history_patients():
+    patients = dao.load_patient()
+    return render_template('/doctor/xemdanhsachlichsubenhnhan.html',
+                           patients=patients)
 
+
+@app.route('/xem-lich-su-benh-nhan/<int:patient_id>')
+def history_patient(patient_id):
+    patient = dao.get_patient_by_id(patient_id)
+    report_patient = dao.get_phieu_kham_by_patient_id(patient_id)
+    return render_template('/doctor/xemlichsubenhnhan.html',
+                           patient=patient,
+                           report_patient=report_patient)
+
+@app.route('/xem-lich-su-benh-nhan/<int:patient_id>/<int:ngayKham>')
+def history_patient_detail(patient_id, ngayKham):
+    patient = dao.get_patient_by_id(patient_id)
+    report_patient = dao.get_phieu_kham_by_patient_id(patient_id)
+    return render_template('/doctor/xemlichsubenhnhan.html',
+                           patient=patient,
+                           report_patient=report_patient)
 
 
 @app.route("/")

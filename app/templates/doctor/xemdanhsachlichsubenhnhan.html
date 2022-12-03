@@ -1,0 +1,39 @@
+{% extends 'layout/base.html' %}
+{% block title%}Xem lịch sử bệnh nhân{% endblock %}
+{% block content %}
+<h1 class="text-center text-color mt-3">Xem lịch sử bệnh nhân</h1>
+<div class="container w-50">
+    <form action="">
+        <div class="mb-3 mt-3 form-floating">
+            <input type="text" class="form-control" id="patient" placeholder="Nhập tên bệnh nhân" name="patient">
+            <label for="patient">Tên bệnh nhân</label>
+        </div>
+        <button type="submit" class="btn btn-primary">Tìm kiếm</button>
+    </form>
+</div>
+<div class="container">
+    <div class="row">
+        {% for p in patients %}
+        <div class="card mb-3" style="max-width: 500px; margin-right: 1rem">
+            <div class="row g-0">
+                <div class="col-md-4">
+                    <img src="{{ url_for('static', filename='images/user.png') }}" class="img-fluid rounded-start p-3"
+                         alt="...">
+                </div>
+                <div class="col-md-8">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ p.hoTen }}</h5>
+                        <p class="card-text">ID: {{ p.id }}</p>
+                        <p class="card-text">CCCD: {{ p.cccd }}</p>
+                        <p class="card-text">SĐT: {{ p.sdt }}</p>
+                        <a href="{{ url_for('history_patient', patient_id=p.id) }}" class="btn btn-root">Xem lịch
+                            sử</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+</div>
+{% endblock %}

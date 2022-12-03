@@ -1,0 +1,35 @@
+{% extends 'layout/base.html' %}
+{% block title%}Lịch sử bệnh nhân {{patient}}{% endblock %}
+{% block content %}
+<h1 class="text-center text-color mt-3">Lịch sử bệnh nhân {{patient}}</h1>
+<div class="container">
+    <div class="dropdown mb-3">
+        <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+            Ngày
+        </button>
+        <ul class="dropdown-menu" style="max-height: 300px; overflow: auto">
+            {% for r in report_patient %}
+            <li><a class="dropdown-item" href="#">{{ r.ngayKhamBenh.strftime('%d-%m-%Y') }}</a></li>
+            {% endfor %}
+        </ul>
+    </div>
+    {% if report_patient %}
+    <div class="row">
+        {% for r in report_patient %}
+        <div class="col-md-4 col-sm-12" style="padding:1rem;">
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="card-title">ID: {{ r.id }}</h4>
+                    <h4 class="card-text">Ngày: {{ r.ngayKhamBenh }}</h4>
+                    <input class="btn btn-root col-md-2" type="button" value="Chi tiết" style="height: 50px">
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% else %}
+    <p class="text-center"><i>Bệnh nhân không có phiếu khám!!!!</i></p>
+    {% endif %}
+</div>
+
+{% endblock %}

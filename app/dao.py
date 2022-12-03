@@ -60,6 +60,10 @@ def get_patient_by_cccd(cccd):
     return BenhNhan.query.filter(BenhNhan.cccd == cccd).first()
 
 
+def get_patient_by_id(patient_id):
+    return BenhNhan.query.filter(BenhNhan.id == patient_id).first()
+
+
 def load_dskham():
     return DanhSachKham.query.all()
 
@@ -126,5 +130,15 @@ def add_medicines_to_report(medicines, report):
 def get_phieu_kham_by_date_patient_id(day, patient_id):
     return PhieuKhamBenh.query.filter(PhieuKhamBenh.ngayKhamBenh == day
                                       and PhieuKhamBenh.benhNhanId == patient_id).first()
+
+
+def get_phieu_kham_by_patient_id(patient_id):
+    return PhieuKhamBenh.query.filter(PhieuKhamBenh.benhNhanId == patient_id).all()
+
+
+def load_patient():
+    return BenhNhan.query.all()
+
+
 
 
