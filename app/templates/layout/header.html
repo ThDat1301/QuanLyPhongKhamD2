@@ -43,23 +43,23 @@
                     <a class="nav-link" href="javascript:void(0)">Tin tức</a>
                 </li>
                 {% if not current_user.is_authenticated or current_user.isNurse() %}
-                <li class="nav-item check-in">
-                    <a href="{{ url_for('make_appointment') }}">Đăng ký khám trực tuyến</a>
-                </li>
+                    <li class="nav-item check-in">
+                        <a href="{{ url_for('make_appointment') }}">Đăng ký khám trực tuyến</a>
+                    </li>
                 {% endif %}
 
             </ul>
             {% if not current_user.is_authenticated %}
-            <ul class="navbar-item d-flex justify-content-end align-items-center">
-                <div class="auth-form">
-                    <div class="auth-form-img">
-                        <img src="{{ url_for('static',filename='images/user.png') }}" alt="user">
+                <ul class="navbar-item d-flex justify-content-end align-items-center">
+                    <div class="auth-form">
+                        <div class="auth-form-img">
+                            <img src="{{ url_for('static',filename='images/user.png') }}" alt="user">
+                        </div>
+                        <div class="auth-form-login">
+                            <a href="{{ url_for('login') }}">Đăng nhập</a>
+                        </div>
                     </div>
-                    <div class="auth-form-login">
-                        <a href="{{ url_for('login') }}">Đăng nhập</a>
-                    </div>
-                </div>
-            </ul>
+                </ul>
             {% endif %}
 
             <!--            Drop down bác sĩ-->
@@ -91,33 +91,69 @@
                             </li>
                         </ul>
 
+                        </div>
                     </div>
-                </div>
-            </ul>
-            <!-- Drop down y tá -->
+                </ul>
+                <!-- Drop down y tá -->
             {% elif current_user.is_authenticated and current_user.isNurse() %}
-            <ul class="navbar-item d-flex justify-content-end align-items-center">
-                <div class="auth-form">
-                    <div class="auth-form-img">
-                        <img src="{{ url_for('static',filename='images/user.png') }}" alt="user">
-                    </div>
-                    <div class="auth-form-login">
-                        <a href="">{{ current_user.hoTen() }} <i class="fa-solid fa-caret-down"></i></a>
-                    </div>
-                    <div class="auth-dropdown">
-                        <ul class="auth-dropdown-items clear-ul">
-                            <li class="auth-dropdown-item">
-                                <a href="{{ url_for('xem_ds_benh_nhan') }}">Xem danh sách khám bệnh nhân</a>
-                            </li>
-                            <li class="auth-dropdown-item">
-                                <a href="{{ url_for('logout') }}">Đăng xuất</a>
-                            </li>
-                        </ul>
+                <ul class="navbar-item d-flex justify-content-end align-items-center">
+                    <div class="auth-form">
+                        <div class="auth-form-img">
+                            <img src="{{ url_for('static',filename='images/user.png') }}" alt="user">
+                        </div>
+                        <div class="auth-form-login">
+                            <a href="">{{ current_user.hoTen() }} <i class="fa-solid fa-caret-down"></i></a>
+                        </div>
+                        <div class="auth-dropdown">
+                            <ul class="auth-dropdown-items clear-ul">
+                                <li class="auth-dropdown-item">
+                                    <a href="{{ url_for('xem_ds_benh_nhan') }}">Xem danh sách khám bệnh nhân</a>
+                                </li>
+                                <li class="auth-dropdown-item">
+                                    <a href="{{ url_for('logout') }}">Đăng xuất</a>
+                                </li>
+                            </ul>
 
+                        </div>
                     </div>
-                </div>
-            </ul>
+                </ul>
+            {% elif current_user.is_authenticated and current_user.isAdmin() %}
+                <ul class="navbar-item d-flex justify-content-end align-items-center">
+                    <div class="auth-form">
+                        <div class="auth-form-img">
+                            <img src="{{ url_for('static',filename='images/user.png') }}" alt="user">
+                        </div>
+                        <div class="auth-form-login">
+                            <a href="">{{ current_user.hoTen() }} <i class="fa-solid fa-caret-down"></i></a>
+                        </div>
+                        <div class="auth-dropdown">
+                            <ul class="auth-dropdown-items clear-ul">
+                                <li class="auth-dropdown-item">
+                                    <a href="{{ url_for('xem_ds_benh_nhan') }}">Quản lý thuốc</a>
+                                </li>
+                                <li class="auth-dropdown-item">
+                                    <a href="{{ url_for('xem_ds_benh_nhan') }}">Quản lý đơn vị thuốc</a>
+                                </li>
+                                <li class="auth-dropdown-item">
+                                    <a href="{{ url_for('xem_ds_benh_nhan') }}">Thay đổi số tiền khám</a>
+                                </li>
+                                <li class="auth-dropdown-item">
+                                    <a href="{{ url_for('xem_ds_benh_nhan') }}">Thay đổi số bệnh nhân</a>
+                                </li>
+                                <li class="auth-dropdown-item">
+                                    <a href="{{ url_for('xem_ds_benh_nhan') }}">Xem thống kê</a>
+                                </li>
+                                <li class="auth-dropdown-item">
+                                    <a href="{{ url_for('logout') }}">Đăng xuất</a>
+                                </li>
+                            </ul>
+
+                        </div>
+                    </div>
+                </ul>
             {% endif %}
+
+
 
 
             <!--            <ul class="navbar-item d-flex justify-content-end align-items-center">-->

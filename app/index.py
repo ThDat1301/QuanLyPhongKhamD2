@@ -1,7 +1,7 @@
 from app import app, dao, login
 from flask import render_template, url_for, request, redirect, session, jsonify
 from flask_login import login_user, logout_user, current_user, login_required
-from app.models import DanhSachKham, BenhNhan
+from app.models import DanhSachKham, BenhNhan, UserRole
 
 
 @app.route("/dang-ky-kham-truc-tuyen", methods=['GET', 'POST'])
@@ -50,11 +50,14 @@ def login():
     if request.method.__eq__('POST'):
         username = request.form.get('username')
         password = request.form.get('password')
-        # return redirect('/')
         user = dao.check_login(username=username, password=password)
         if user:
             login_user(user=user)
-            return redirect('/')
+            # print(current_user.vaiTro)
+            if current_user.vaiTro == UserRole.ADMIN:
+                return  redirect('/admin')
+            else:
+                return redirect('/')
         else:
             err_msg = 'Sai tài khoản hoặc mật khẩu!!! Vui lòng nhập lại'
 
@@ -225,4 +228,5 @@ def home():
 
 
 if __name__ == '__main__':
+    from app.admin import *
     app.run(debug=True)

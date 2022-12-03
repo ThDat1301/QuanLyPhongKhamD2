@@ -46,7 +46,7 @@ def get_ds_kham_by_id(dskhamid):
 def chk_patient(day):
     num = db.session.query(BenhNhan.id).join(DanhSachKham).filter(DanhSachKham.ngayKham == day)
     limit = db.session.query(DanhSachKham.soLuong).filter(DanhSachKham.ngayKham == day).first()
-    if num.count() <= limit.soLuong:
+    if num.count() < limit.soLuong:
         return True
     return False
 
