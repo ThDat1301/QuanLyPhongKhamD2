@@ -1,4 +1,5 @@
 function addToReport(id, tenThuoc, donVi, donGia) {
+    cachDungInput = document.getElementById('cachDung')
     fetch('/api/add-medicines-to-report',
         {
             method: 'post',
@@ -7,7 +8,7 @@ function addToReport(id, tenThuoc, donVi, donGia) {
                 'tenThuoc': tenThuoc,
                 'donVi': donVi,
                 'donGia': donGia,
-                'cachDung': ""
+                'cachDung': ''
             }),
             headers: {
                 'Content-Type': 'application/json'
@@ -46,6 +47,7 @@ function updateUseMedicines(id, obj) {
     fetch('/api/update-use-medicines', {
         method: 'put',
         body: JSON.stringify({
+            'id': id,
             'cachDung': obj.value
         }),
         headers: {

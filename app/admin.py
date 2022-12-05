@@ -1,6 +1,6 @@
 from flask_admin import Admin, BaseView, expose
 from app import app, db
-from app.models import Thuoc, DanhSachKham
+from app.models import Thuoc, LichKham
 from flask_admin.contrib.sqla import ModelView
 from flask_login import logout_user
 from flask import redirect
@@ -34,6 +34,6 @@ class LogoutAdmin(BaseView):
         return redirect('/')
 
 admin.add_view(xemThuoc(Thuoc, db.session, name='Quản lý thuốc'))
-admin.add_view(ModelView(DanhSachKham, db.session, name='Quản lý danh sách khám'))
+admin.add_view(ModelView(LichKham, db.session, name='Quản lý danh sách khám'))
 admin.add_view(StatsView(name='Thống kê - báo cáo'))
 admin.add_view(LogoutAdmin(name='Đăng xuất'))

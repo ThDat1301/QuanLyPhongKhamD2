@@ -70,7 +70,7 @@
                         <img src="{{ url_for('static',filename='images/user.png') }}" alt="user">
                     </div>
                     <div class="auth-form-login">
-                        <a href="">{{ current_user.hoTen() }} <i class="fa-solid fa-caret-down"></i></a>
+                        <a href="">{{ current_user }} <i class="fa-solid fa-caret-down"></i></a>
                     </div>
                     <div class="auth-dropdown">
                         <ul class="auth-dropdown-items clear-ul">
@@ -82,9 +82,6 @@
                             </li>
                             <li class="auth-dropdown-item">
                                 <a href="{{ url_for('lap_phieu_kham') }}">Lập phiếu khám</a>
-                            </li>
-                            <li class="auth-dropdown-item">
-                                <a href="">Xem phiếu khám</a>
                             </li>
                             <li class="auth-dropdown-item">
                                 <a href="{{ url_for('logout') }}">Đăng xuất</a>
@@ -102,7 +99,7 @@
                             <img src="{{ url_for('static',filename='images/user.png') }}" alt="user">
                         </div>
                         <div class="auth-form-login">
-                            <a href="">{{ current_user.hoTen() }} <i class="fa-solid fa-caret-down"></i></a>
+                            <a href="">{{ current_user }} <i class="fa-solid fa-caret-down"></i></a>
                         </div>
                         <div class="auth-dropdown">
                             <ul class="auth-dropdown-items clear-ul">
@@ -124,7 +121,7 @@
                             <img src="{{ url_for('static',filename='images/user.png') }}" alt="user">
                         </div>
                         <div class="auth-form-login">
-                            <a href="">{{ current_user.hoTen() }} <i class="fa-solid fa-caret-down"></i></a>
+                            <a href="">{{ current_user }} <i class="fa-solid fa-caret-down"></i></a>
                         </div>
                         <div class="auth-dropdown">
                             <ul class="auth-dropdown-items clear-ul">

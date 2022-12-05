@@ -1,7 +1,7 @@
 from app import app, dao, login
 from flask import render_template, url_for, request, redirect, session, jsonify
 from flask_login import login_user, logout_user, current_user, login_required
-from app.models import DanhSachKham, BenhNhan, UserRole
+from app.models import LichKham, BenhNhan, UserRole
 
 
 @app.route("/dang-ky-kham-truc-tuyen", methods=['GET', 'POST'])
@@ -10,8 +10,8 @@ def make_appointment():
     success = None
     if request.method.__eq__('POST'):
         day = request.form.get('date')
-        if not dao.get_id_dskham_by_date(day):
-            dao.add_dsKham(day)
+        if not dao.get_id_lichkham_by_date(day):
+            dao.add_lichKham(day)
         if dao.chk_patient(day):
             ho_ten = request.form.get('hoten')
             cccd = request.form.get('cccd')
@@ -26,7 +26,7 @@ def make_appointment():
                                 ngaySinh=ngay_sinh,
                                 gioiTinh=gioi_tinh,
                                 diaChi=dia_chi,
-                                dsKhamId=dao.get_id_dskham_by_date(day),
+                                lichKhamId=dao.get_id_lichkham_by_date(day),
                                 )
             except Exception as ex:
                 msg = "Lỗi hệ thống!"
@@ -122,7 +122,7 @@ def lap_phieu_kham():
 @app.route('/ds-benh-nhan')
 def xem_ds_benh_nhan():
     patients = dao.load_patient()
-    ds = dao.load_dskham()
+    ds = dao.load_lichkham()
     return render_template('/nurse/danh-sach-benh-nhan.html',
                            patients=patients,
                            ds=ds)
@@ -130,7 +130,7 @@ def xem_ds_benh_nhan():
 
 @app.route('/ds-benh-nhan/<string:ngayKham>')
 def chi_tiet_ds(ngayKham):
-    ds = dao.load_dskham_by_date(ngayKham)
+    ds = dao.load_lichkham_by_date(ngayKham)
     patients = dao.load_patients_by_list(ds)
     return render_template('/nurse/danh-sach-benh-nhan-theo-ngay.html',
                            ds=ds,
@@ -157,7 +157,7 @@ def add_medicines_to_report():
             'donVi': donVi,
             'donGia': donGia,
             'soLuongThem': 1,
-            'cachDung': ""
+            'cachDung': ''
         }
     session['medicines'] = medicines
     return jsonify(dao.count_medicines(medicines))
@@ -173,14 +173,14 @@ def update_number_medicines():
         medicines[id]['soLuongThem'] = soLuongThem
         session['medicines'] = medicines
 
-    return medicines
+    return data
 
 
 @app.route('/api/update-use-medicines', methods=['put'])
 def update_use_medicines():
     data = request.json
     cachDung = data.get('cachDung')
-
+    id = str(data.get('id'))
     medicines = session.get('medicines')
     if medicines and id in medicines:
         medicines[id]['cachDung'] = cachDung
@@ -200,7 +200,7 @@ def delete_medicines(medicine_id):
 
 @app.route('/xem-lich-su-benh-nhan')
 def history_patients():
-    patients = dao.load_patient()
+    patients = dao.load_patient(patient_name=request.args.get('patient_name'))
     return render_template('/doctor/xemdanhsachlichsubenhnhan.html',
                            patients=patients)
 
@@ -209,18 +209,29 @@ def history_patients():
 def history_patient(patient_id):
     patient = dao.get_patient_by_id(patient_id)
     report_patient = dao.get_phieu_kham_by_patient_id(patient_id)
+    medicines_use = []
+    for r in report_patient:
+        medicines_use.append(dao.load_medicines_in_report(r.id))
+    print(medicines_use)
+    for m in medicines_use:
+        print(m)
     return render_template('/doctor/xemlichsubenhnhan.html',
                            patient=patient,
-                           report_patient=report_patient)
+                           report_patient=report_patient,
+                           medicines_use=medicines_use
+                           )
 
-@app.route('/xem-lich-su-benh-nhan/<int:patient_id>/<int:ngayKham>')
-def history_patient_detail(patient_id, ngayKham):
-    patient = dao.get_patient_by_id(patient_id)
-    report_patient = dao.get_phieu_kham_by_patient_id(patient_id)
-    return render_template('/doctor/xemlichsubenhnhan.html',
-                           patient=patient,
-                           report_patient=report_patient)
 
+@app.route('/chi-tiet-phieu-kham/<int:report_id>')
+def report_details(report_id):
+    report = dao.get_report_by_id(report_id)
+    patient = dao.get_patient_by_id(report.benhNhanId)
+    medicines = dao.load_medicines_in_report(report_id)
+    return render_template('/doctor/chitietphieukham.html',
+                           report=report,
+                           medicines=medicines,
+                           name_patient=patient
+                           )
 
 @app.route("/")
 def home():

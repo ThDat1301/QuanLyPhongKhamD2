@@ -1,0 +1,43 @@
+{% extends 'layout/base.html' %}
+{% block title%}Chi tiết phiếu khám{% endblock %}
+{% block content %}
+
+<div class="container list_print" style="min-height: 50vh">
+    <h1 class="text-center text-color mt-3">Chi tiết phiếu khám</h1>
+    <h4 class="text-color">Mã phiếu khám: {{report.id}}</h4>
+    <table class="table table-bordered" style="background-color: #f2f2f2">
+        <tr>
+            <td class="w-50"><b>Họ tên: </b> {{name_patient}} </td>
+            <td><b>Ngày khám: </b>{{report.ngayKhamBenh.strftime('%d-%m-%Y')}}</td>
+        </tr>
+        <tr>
+           <td><b>Triệu chứng: </b>{{report.trieuChung}}</td>
+            <td><b>Dự đoán loại bệnh: </b>{{report.duDoanBenh}}</td>
+    </table>
+    <table class="table table-striped table-bordered">
+        {% set num = namespace(value=1) %}
+        <h1>{{report_trieuChung}}</h1>
+        <tr>
+            <th>STT</th>
+            <th>Thuốc</th>
+            <th>Đơn vị</th>
+            <th>Số lượng</th>
+            <th>Cách dùng</th>
+        </tr>
+        {% for m in medicines %}
+        <tr>
+            <td>{{ num.value }}</td>
+            <td>{{ m[0] }}</td>
+            <td>{{ m[1] }}</td>
+            <td>{{ m[2] }}</td>
+            <td>{{ m[3] }}</td>
+        </tr>
+        {% set num.value = num.value + 1 %}
+        {% endfor %}
+    </table>
+</div>
+<div class="container mb-3">
+    <input class='btn btn-root d-flex justify-content-center' type="button" value="In danh sách khám" onclick="print_list_patient()">
+</div>
+
+{% endblock %}
