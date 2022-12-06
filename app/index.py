@@ -173,7 +173,7 @@ def update_number_medicines():
         medicines[id]['soLuongThem'] = soLuongThem
         session['medicines'] = medicines
 
-    return data
+    return jsonify(dao.count_medicines(medicines))
 
 
 @app.route('/api/update-use-medicines', methods=['put'])
@@ -186,7 +186,7 @@ def update_use_medicines():
         medicines[id]['cachDung'] = cachDung
         session['medicines'] = medicines
 
-    return medicines
+    return jsonify(dao.count_medicines(medicines))
 
 
 @app.route('/api/delete-medicines/<medicine_id>', methods=['delete'])

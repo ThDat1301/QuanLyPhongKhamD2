@@ -33,7 +33,6 @@ class TaiKhoan(db.Model, UserMixin):
     active = Column(Boolean, default=True)
     nguoiDungId = Column(Integer, ForeignKey(NguoiDung.id), nullable=False, unique=True)
 
-
     def isDoctor(self):
         if self.vaiTro == UserRole.DOCTOR:
             return True
@@ -133,23 +132,6 @@ class PhieuKhamBenh_Thuoc(db.Model):
     thuoc_id = Column(ForeignKey(Thuoc.id), primary_key=True)
     soLuong = Column(Integer, nullable=False)
     cachDung = Column(String(200))
-
-
-class ThongKeSuDungThuoc(db.Model):
-    __tablename__ = 'thongkesudungthuoc'
-    id = Column(Integer, primary_key=True, autoincrement=True)
-    thang = Column(Date, nullable=False)
-    chiTiet = relationship('ChiTietTKSDT', backref='thongkesudungthuoc', lazy=True)
-
-
-class ChiTietTKSDT(db.Model):
-    __tablename__ = 'chitiettksdt'
-    id = Column(Integer, primary_key=True, autoincrement=True)
-    thuoc = Column(String(50), nullable=False)
-    donViTinh = Column(String(50), nullable=False)
-    soLuong = Column(Integer, nullable=False)
-    soLanDung = Column(Integer, nullable=False)
-    tksdt = Column(Integer, ForeignKey(ThongKeSuDungThuoc.id), nullable=False, unique=True)
 
 
 if __name__ == '__main__':

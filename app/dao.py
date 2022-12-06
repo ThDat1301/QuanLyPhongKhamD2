@@ -123,7 +123,8 @@ def add_medicines_to_report(medicines, report):
             report_details = PhieuKhamBenh_Thuoc(soLuong=m.get('soLuongThem'),
                                                  thuoc_id=m.get('id'),
                                                  phieukhambenh_id=report.id,
-                                                 cachDung=m.get('cachDung'))
+                                                 cachDung=m.get('cachDung'),
+                                                )
             db.session.add(report_details)
         db.session.commit()
 
