@@ -95,7 +95,6 @@ def add_patient(hoTen, sdt, ngaySinh, gioiTinh, diaChi, lichKhamId, cccd):
     db.session.add(benh_nhan)
     db.session.commit()
 
-
 def count_medicines(medicines):
     total_quantity, total_ammount = 0, 0
     if medicines:
@@ -162,10 +161,16 @@ def get_report_by_id(report_id):
 def get_patient_by_id(patient_id):
     return BenhNhan.query.filter(BenhNhan.id == patient_id).first()
 
+def load_report(idPhieuKham = None):
+    patient = db.session.query(PhieuKhamBenh.id, BenhNhan.hoTen, BenhNhan.sdt, PhieuKhamBenh.ngayKhamBenh).join(BenhNhan, PhieuKhamBenh.benhNhanId.__eq__(BenhNhan.id))
+    if idPhieuKham:
+        patient = patient.filter(BenhNhan.id.__eq__(idPhieuKham))
+    return patient.all()
+
 
 if __name__ == '__main__':
     with app.app_context():
-        print(BenhNhan.query.filter(BenhNhan.id == 1).first())
+        print(BenhNhan.query.all())
 
 
 

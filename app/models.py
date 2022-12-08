@@ -44,7 +44,9 @@ class TaiKhoan(db.Model, UserMixin):
     def isAdmin(self):
         if self.vaiTro == UserRole.ADMIN:
             return True
-
+    def isCashier(self):
+        if self.vaiTro == UserRole.CASHIER:
+            return True
     def __str__(self):
         return self.username
 
@@ -144,7 +146,10 @@ if __name__ == '__main__':
         tkyta = TaiKhoan(vaiTro=UserRole.NURSE, username='dat', password='1', nguoiDungId=2)
         ad = NguoiDung(namSinh=2002, diaChi='Bình Tân', hoTen='Văn Trúc Vy', sdt='0123456790')
         tkad = TaiKhoan(vaiTro=UserRole.ADMIN, username='admin', password='1', nguoiDungId=3)
-        db.session.add_all([bs, tkbs, yta, tkyta, ad, tkad])
+        tn = NguoiDung(namSinh=2002, diaChi='Binh Tan', hoTen='Nguyen Van A', sdt='015123213')
+        tktn = TaiKhoan(vaiTro=UserRole.CASHIER, username='thungan', password='1', nguoiDungId=4)
+
+        db.session.add_all([bs, tkbs, yta, tkyta, ad, tkad, tn, tktn])
         db.session.commit()
 # Tạo bảng
 

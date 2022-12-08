@@ -64,29 +64,29 @@
 
             <!--            Drop down bác sĩ-->
             {% if current_user.is_authenticated and current_user.isDoctor() %}
-            <ul class="navbar-item d-flex justify-content-end align-items-center">
-                <div class="auth-form">
-                    <div class="auth-form-img">
-                        <img src="{{ url_for('static',filename='images/user.png') }}" alt="user">
-                    </div>
-                    <div class="auth-form-login">
-                        <a href="">{{ current_user }} <i class="fa-solid fa-caret-down"></i></a>
-                    </div>
-                    <div class="auth-dropdown">
-                        <ul class="auth-dropdown-items clear-ul">
-                            <li class="auth-dropdown-item">
-                                <a href="{{ url_for('tra_cuu_thuoc') }}">Tra cứu thuốc</a>
-                            </li>
-                            <li class="auth-dropdown-item">
-                                <a href="{{ url_for('history_patients') }}">Xem lịch sử bệnh nhân</a>
-                            </li>
-                            <li class="auth-dropdown-item">
-                                <a href="{{ url_for('lap_phieu_kham') }}">Lập phiếu khám</a>
-                            </li>
-                            <li class="auth-dropdown-item">
-                                <a href="{{ url_for('logout') }}">Đăng xuất</a>
-                            </li>
-                        </ul>
+                <ul class="navbar-item d-flex justify-content-end align-items-center">
+                    <div class="auth-form">
+                        <div class="auth-form-img">
+                            <img src="{{ url_for('static',filename='images/user.png') }}" alt="user">
+                        </div>
+                        <div class="auth-form-login">
+                            <a href="">{{ current_user }} <i class="fa-solid fa-caret-down"></i></a>
+                        </div>
+                        <div class="auth-dropdown">
+                            <ul class="auth-dropdown-items clear-ul">
+                                <li class="auth-dropdown-item">
+                                    <a href="{{ url_for('tra_cuu_thuoc') }}">Tra cứu thuốc</a>
+                                </li>
+                                <li class="auth-dropdown-item">
+                                    <a href="{{ url_for('history_patients') }}">Xem lịch sử bệnh nhân</a>
+                                </li>
+                                <li class="auth-dropdown-item">
+                                    <a href="{{ url_for('lap_phieu_kham') }}">Lập phiếu khám</a>
+                                </li>
+                                <li class="auth-dropdown-item">
+                                    <a href="{{ url_for('logout') }}">Đăng xuất</a>
+                                </li>
+                            </ul>
 
                         </div>
                     </div>
@@ -126,19 +126,32 @@
                         <div class="auth-dropdown">
                             <ul class="auth-dropdown-items clear-ul">
                                 <li class="auth-dropdown-item">
-                                    <a href="{{ url_for('xem_ds_benh_nhan') }}">Quản lý thuốc</a>
+                                    <a href="{{ url_for('logout') }}">Đăng xuất</a>
+                                </li>
+                            </ul>
+
+                        </div>
+                    </div>
+                </ul>
+            {% elif current_user.is_authenticated and current_user.isCashier() %}
+                <ul class="navbar-item d-flex justify-content-end align-items-center">
+                    <div class="auth-form">
+                        <div class="auth-form-img">
+                            <img src="{{ url_for('static',filename='images/user.png') }}" alt="user">
+                        </div>
+                        <div class="auth-form-login">
+                            <a href="">{{ current_user }} <i class="fa-solid fa-caret-down"></i></a>
+                        </div>
+                        <div class="auth-dropdown">
+                            <ul class="auth-dropdown-items clear-ul">
+                                <li class="auth-dropdown-item">
+                                    <a href="{{ url_for('xem_ds_benh_nhan') }}">Xem phiếu khám bệnh</a>
                                 </li>
                                 <li class="auth-dropdown-item">
-                                    <a href="{{ url_for('xem_ds_benh_nhan') }}">Quản lý đơn vị thuốc</a>
+                                    <a href="{{ url_for('bill') }}">Thanh toán hoá đơn</a>
                                 </li>
                                 <li class="auth-dropdown-item">
-                                    <a href="{{ url_for('xem_ds_benh_nhan') }}">Thay đổi số tiền khám</a>
-                                </li>
-                                <li class="auth-dropdown-item">
-                                    <a href="{{ url_for('xem_ds_benh_nhan') }}">Thay đổi số bệnh nhân</a>
-                                </li>
-                                <li class="auth-dropdown-item">
-                                    <a href="{{ url_for('xem_ds_benh_nhan') }}">Xem thống kê</a>
+                                    <a href="{{ url_for('xem_ds_benh_nhan') }}">Xem tiền khám</a>
                                 </li>
                                 <li class="auth-dropdown-item">
                                     <a href="{{ url_for('logout') }}">Đăng xuất</a>
