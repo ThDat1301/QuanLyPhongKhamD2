@@ -56,10 +56,10 @@ class BacSi(NguoiDung):
 benhnhan_lichkham = db.Table('benhnhan_lichkham',
                            Column('benhNhanId', Integer,
                                   ForeignKey('benhnhan.id'),
-                                  primary_key=True),
+                                  primary_key=True, nullable=False),
                            Column('lichKhamId', Integer,
                                   ForeignKey('lichkham.id'),
-                                  primary_key=True)
+                                  primary_key=True, nullable=False)
                            )
 
 
@@ -69,10 +69,6 @@ class LichKham(db.Model):
     ngayKham = Column(Date, default=datetime.date.today(), nullable=False, unique=True)
     soLuong = Column(Integer, default=40)
     tienKham = Column(Integer, default=100000)
-    benhNhan = relationship('BenhNhan',
-                            secondary='benhnhan_lichkham',
-                            lazy='subquery',
-                            backref=backref('lichkham', lazy=True))
 
 
 class BenhNhan(db.Model):
@@ -84,8 +80,9 @@ class BenhNhan(db.Model):
     gioiTinh = Column(String(10), nullable=False)
     diaChi = Column(String(100))
     cccd = Column(String(12), nullable=False, unique=True)
-    lichKhamId = Column(Integer, ForeignKey(LichKham.id), nullable=False)
     phieuKhamBenh = relationship('PhieuKhamBenh', backref='benhnhan', lazy=True)
+    lichKham = relationship('LichKham', secondary='benhnhan_lichkham', lazy='subquery',
+                            backref=backref('e', lazy=True))
 
     def __str__(self):
         return self.hoTen

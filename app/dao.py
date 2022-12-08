@@ -1,9 +1,12 @@
 import datetime
 import hashlib
 
-from app.models import TaiKhoan, UserRole, BacSi, NguoiDung, LichKham, BenhNhan, Thuoc, PhieuKhamBenh, \
-    PhieuKhamBenh_Thuoc
+import sqlalchemy
+
+from app.models import TaiKhoan, UserRole, BacSi, NguoiDung, LichKham, BenhNhan, Thuoc, PhieuKhamBenh,\
+    PhieuKhamBenh_Thuoc, benhnhan_lichkham
 from sqlalchemy import func
+from sqlalchemy.sql import extract
 from app import db, app
 from datetime import date
 
@@ -44,17 +47,15 @@ def get_lich_kham_by_id(lichKhamId):
 
 
 def chk_patient(day):
-    num = db.session.query(BenhNhan.id).join(LichKham).filter(LichKham.ngayKham == day)
+    num = db.session.query(func.count(BenhNhan.id)).join(LichKham, LichKham.ngayKham.__eq__(date.today())).all()
     limit = db.session.query(LichKham.soLuong).filter(LichKham.ngayKham == day).first()
-    if num.count() < limit.soLuong:
+    if num[0][0] < limit.soLuong:
         return True
     return False
 
 
-def load_patients_by_list(ds):
-    patients = db.session.query(BenhNhan).filter(BenhNhan.lichKhamId == ds.id).all()
-    return patients
-
+def load_patients_by_date(ngay):
+    return BenhNhan.query.filter(BenhNhan.lichKham.any(ngayKham=ngay)).all()
 
 def get_patient_by_cccd(cccd):
     return BenhNhan.query.filter(BenhNhan.cccd == cccd).first()
@@ -69,7 +70,7 @@ def load_lichkham():
 
 
 def load_lichkham_by_date(day):
-    return LichKham.query.filter(LichKham.ngayKham == day).first()
+    return LichKham.query.filter(LichKham.ngayKham == day).order_by(LichKham.ngayKham).first()
 
 
 def get_id_lichkham_by_date(date):
@@ -79,21 +80,13 @@ def get_id_lichkham_by_date(date):
     return False
 
 
+def get_lichkham_by_date(date):
+    return LichKham.query.filter(LichKham.ngayKham.__eq__(date)).first()
+
+
 def load_patient():
     patients = db.session.query(BenhNhan).all()
     return patients
-
-
-def add_patient(hoTen, sdt, ngaySinh, gioiTinh, diaChi, lichKhamId, cccd):
-    benh_nhan = BenhNhan(hoTen=hoTen,
-                         cccd=cccd,
-                         sdt=sdt,
-                         ngaySinh=ngaySinh,
-                         gioiTinh=gioiTinh,
-                         diaChi=diaChi,
-                         lichKhamId=lichKhamId)
-    db.session.add(benh_nhan)
-    db.session.commit()
 
 
 def count_medicines(medicines):
@@ -163,9 +156,50 @@ def get_patient_by_id(patient_id):
     return BenhNhan.query.filter(BenhNhan.id == patient_id).first()
 
 
+def revenue_stats():
+    return db.session.query(PhieuKhamBenh_Thuoc.thuoc_id, Thuoc.tenThuoc, func.sum(PhieuKhamBenh_Thuoc.soLuong * Thuoc.donGia))\
+            .join(Thuoc, Thuoc.id.__eq__(PhieuKhamBenh_Thuoc.thuoc_id))\
+            .group_by(Thuoc.id).all()
+
+
+def patients_quantity_stats(year):
+    return db.session.query(extract('month', PhieuKhamBenh.ngayKhamBenh, ),
+                            func.count(PhieuKhamBenh.benhNhanId))\
+        .filter(extract('year', PhieuKhamBenh.ngayKhamBenh) == year)\
+        .group_by(extract('month', PhieuKhamBenh.ngayKhamBenh))\
+        .order_by(extract('month', PhieuKhamBenh.ngayKhamBenh)).all()
+
+def medicines_stats():
+    return db.session.query(Thuoc.tenThuoc, Thuoc.donVi, Thuoc.soLuong, func.sum(PhieuKhamBenh_Thuoc.soLuong))\
+        .join(Thuoc, PhieuKhamBenh_Thuoc.thuoc_id.__eq__(Thuoc.id))\
+        .group_by(PhieuKhamBenh_Thuoc.thuoc_id)\
+        .order_by(Thuoc.tenThuoc).all()
+
+
+def check_patient_by_cccd(cccd):
+    patient = BenhNhan.query.filter(BenhNhan.cccd.__eq__(cccd)).first()
+    if patient:
+        return True
+    return False
+
+
+def get_id_patient_by_cccd(cccd):
+    return BenhNhan.query.filter(BenhNhan.cccd.__eq__(cccd)).first().id
+
+
+def add_benhnhan_lichkham(benhNhanId, lichKhamId):
+    lich = benhnhan_lichkham(benhNhanId=benhNhanId, lichKhamId=lichKhamId)
+    db.session.add(lich)
+    db.session.commit()
+
+
 if __name__ == '__main__':
     with app.app_context():
-        print(BenhNhan.query.filter(BenhNhan.id == 1).first())
+        num = db.session.query(func.count(BenhNhan.id)).join(LichKham, LichKham.ngayKham.__eq__(date.today())).all()
+        limit = db.session.query(LichKham.soLuong).filter(LichKham.ngayKham == date.today()).first()
+
+        print()
+
 
 
 
