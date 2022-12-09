@@ -20,14 +20,23 @@ def make_appointment():
             gioi_tinh = request.form.get('sex')
             dia_chi = request.form.get('address')
             try:
-                dao.add_patient(hoTen=ho_ten,
-                                cccd=cccd,
-                                sdt=sdt,
-                                ngaySinh=ngay_sinh,
-                                gioiTinh=gioi_tinh,
-                                diaChi=dia_chi,
-                                lichKhamId=dao.get_id_lichkham_by_date(day),
-                                )
+                if dao.check_patient_by_cccd(cccd):
+                    benh_nhan = dao.get_patient_by_cccd(cccd)
+                    lichKham = dao.get_lichkham_by_date(day)
+                    benh_nhan.lichKham.append(lichKham)
+                    db.session.add(benh_nhan)
+                    db.session.commit()
+                else:
+                    benh_nhan = BenhNhan(hoTen=ho_ten,
+                                         cccd=cccd,
+                                         sdt=sdt,
+                                         ngaySinh=ngay_sinh,
+                                         gioiTinh=gioi_tinh,
+                                         diaChi=dia_chi)
+                    lichKham = dao.get_lichkham_by_date(day)
+                    benh_nhan.lichKham.append(lichKham)
+                    db.session.add(benh_nhan)
+                    db.session.commit()
             except Exception as ex:
                 msg = "Lỗi hệ thống!"
                 return render_template('appointment.html', msg=msg, success=success)
@@ -131,7 +140,7 @@ def xem_ds_benh_nhan():
 @app.route('/ds-benh-nhan/<string:ngayKham>')
 def chi_tiet_ds(ngayKham):
     ds = dao.load_lichkham_by_date(ngayKham)
-    patients = dao.load_patients_by_list(ds)
+    patients = dao.load_patients_by_date(ngayKham)
     return render_template('/nurse/danh-sach-benh-nhan-theo-ngay.html',
                            ds=ds,
                            patients=patients)
@@ -212,9 +221,6 @@ def history_patient(patient_id):
     medicines_use = []
     for r in report_patient:
         medicines_use.append(dao.load_medicines_in_report(r.id))
-    print(medicines_use)
-    for m in medicines_use:
-        print(m)
     return render_template('/doctor/xemlichsubenhnhan.html',
                            patient=patient,
                            report_patient=report_patient,
