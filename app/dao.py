@@ -162,10 +162,10 @@ def load_report(idPhieuKham = None):
     return patient.all()
 
 
-def get_money(id):
-    date = PhieuKhamBenh.query.filter(PhieuKhamBenh.id.__eq__(id))
+def get_money(date):
 
-    return date.all()
+    return date
+
 
 
 def revenue_stats():
@@ -204,6 +204,8 @@ def add_benhnhan_lichkham(benhNhanId, lichKhamId):
     db.session.add(lich)
     db.session.commit()
 
-
+if __name__ == '__main__':
+    with app.app_context():
+        print(get_money())
 
 

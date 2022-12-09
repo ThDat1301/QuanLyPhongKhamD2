@@ -249,7 +249,8 @@ def bill():
 @app.route('/Hoa-Don/<int:PhieuKhamBenh_id>')
 def get_payment(PhieuKhamBenh_id):
     patient_receipt = dao.load_report(PhieuKhamBenh_id)
-    print(patient_receipt)
+    date = dao.get_money(str(patient_receipt[0][3]))
+    print(date)
     return render_template('/Cashier/HoaDon.html', patient_receipt=patient_receipt)
 
 @app.route("/")
