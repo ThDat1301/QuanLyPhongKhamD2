@@ -28,12 +28,22 @@ class xemThuoc(ModelView):
 class StatsView(BaseView):
     @expose('/')
     def index(self):
-        year = request.args.get('year', datetime.now().year)
-        patients_stats = dao.patients_quantity_stats(year)
-        medicines_stats = dao.medicines_stats()
+        year_patient = request.args.get('year-patient', datetime.now().year)
+        patients_stats = dao.patients_quantity_stats(year_patient)
+        year_revenue = request.args.get('year-revenue', datetime.now().year)
+        revenue_stats = dao.revenue_stats(year_revenue)
+        month_medicines = request.args.get('month-medicines', datetime.now().month)
+        year_medicines = request.args.get('year-medicines', datetime.now().year)
+
+        medicines_stats = dao.medicines_stats(month_medicines, year_medicines)
+        total = 0
+        for r in revenue_stats:
+            total += r[1]
         return self.render('admin/stats.html',
                            patients_stats=patients_stats,
-                           medicines_stats=medicines_stats)
+                           medicines_stats=medicines_stats,
+                           revenue_stats=revenue_stats,
+                           total=total)
 
 class LogoutAdmin(BaseView):
     @expose('/')

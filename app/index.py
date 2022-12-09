@@ -101,23 +101,29 @@ def lap_phieu_kham():
         if not medicines_in_list:
             medicines_in_list = {}
         if patient:
-            try:
-                dao.add_report(patient=patient,
-                               ngayKhamBenh=ngayKham,
-                               trieuChung=trieuChung,
-                               duDoanBenh=duDoanBenh)
-                phieuKham = dao.get_phieu_kham_by_date_patient_id(ngayKham, patient.id)
-                dao.add_medicines_to_report(medicines_in_list, phieuKham)
-            except:
-                msg = "Lỗi hệ thống"
+            if dao.is_make_appointment(patient.id, dao.get_id_lichkham_by_date(ngayKham)):
+
+                try:
+                    dao.add_report(patient=patient,
+                                   ngayKhamBenh=ngayKham,
+                                   trieuChung=trieuChung,
+                                   duDoanBenh=duDoanBenh)
+                    phieuKham = dao.get_phieu_kham_by_date_patient_id(ngayKham, patient.id)
+                    dao.add_medicines_to_report(medicines_in_list, phieuKham)
+                except:
+                    msg = "Lỗi hệ thống"
+                    return render_template('/doctor/lapphieukham.html',
+                                           medicines=medicines,
+                                           msg=msg,
+                                           success=success)
+                success = True
+                msg = 'Lập phiếu thành công'
+
                 del session['medicines']
-                return render_template('/doctor/lapphieukham.html',
-                                       medicines=medicines,
-                                       msg=msg,
-                                       success=success)
-            success = True
-            msg = 'Lập phiếu thành công'
-            del session['medicines']
+            else:
+                msg = 'Bệnh nhân chưa đăng ký lịch khám'
+                success = False
+
         else:
             msg = 'Bệnh nhân không tồn tại'
             success = False

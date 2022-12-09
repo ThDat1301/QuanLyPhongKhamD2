@@ -2,11 +2,12 @@
 {% block body %}
 <h1 class="text-center text-success">THỐNG KÊ - BÁO CÁO</h1>
 <div class="container">
+    <h2 class="text-success text-center mt-4 mb-4">Thống kê tần suất khám</h2>
     <div class="row">
         <div class="col-md-6">
             <form>
             <div class="form-group">
-                <input type="number" min="2000" name="year" class="form-control" placeholder="Nhập năm..." />
+                <input type="number" min="2000" name="year-patient" class="form-control" placeholder="Nhập năm..." />
             </div>
 
             <div>
@@ -31,11 +32,47 @@
             </table>
         </div>
     </div>
+    <h2 class="text-success text-center mt-4 mb-4">Thống kê doanh thu</h2>
     <div class="row">
         <div class="col-md-6">
             <form>
             <div class="form-group">
-                <input type="number" min="2000" name="year" class="form-control" placeholder="Nhập năm..." />
+                <input type="number" min="2000" name="year-revenue" class="form-control" placeholder="Nhập năm..." />
+            </div>
+
+            <div>
+                <input type="submit" value="Thống kê" class="btn btn-info" />
+            </div>
+        </form>
+            <canvas id="revenueStats"></canvas>
+        </div>
+        <div class="col-md-6">
+            <table class="table">
+                <tr>
+                    <th>Tháng</th>
+                    <th>Doanh thu</th>
+                    <th>Tỷ lệ</th>
+                </tr>
+                {% for r in revenue_stats %}
+                <tr>
+                    <td>{{ r[0] }}</td>
+                    <td>{{ "{:,.1f}".format(r[1]) }}đ</td>
+                    <td>{{ "{:.2f}".format(r[1] * 100 / total) }}%</td>
+                </tr>
+                {% endfor %}
+            </table>
+            <h3 class="text-success text-center">Tổng doanh thu: {{ "{:,.1f}".format(total) }}đ</h3>
+        </div>
+    </div>
+    <h2 class="text-success text-center mt-4 mb-4">Thống kê tần suất sử dụng thuốc</h2>
+    <div class="row">
+        <div class="col-md-6">
+            <form>
+            <div class="form-group">
+                <input type="number" min="1" max="12" name="month-medicines" class="form-control" placeholder="Nhập tháng..." />
+            </div>
+            <div class="form-group">
+                <input type="number" min="2000" name="year-medicines" class="form-control" placeholder="Nhập năm..." />
             </div>
 
             <div>
@@ -70,24 +107,51 @@
 <script>
     let data = []
     let labels = []
+    let colors1 = []
 
     let dataMedicines = []
     let labelsMedicines = []
+    let colors2 = []
+
+    let dataRevenue = []
+    let labelsRevenue = []
+    let colors3 = []
+    let r, g, b
+
+
+
 
     {% for m in medicines_stats %}
         labelsMedicines.push('{{ m[0] }}')
         dataMedicines.push({{ m[3] }})
+        r = parseInt(Math.random() * 255)
+        g = parseInt(Math.random() * 255)
+        b = parseInt(Math.random() * 255)
+        colors1.push(`rgba(${r}, ${g}, ${b}, 0.8)`)
     {% endfor %}
+
+    {% for r in revenue_stats %}
+        labelsRevenue.push({{ r[0] }})
+        dataRevenue.push({{ r[1] }})
+        r = parseInt(Math.random() * 255)
+        g = parseInt(Math.random() * 255)
+        b = parseInt(Math.random() * 255)
+        colors3.push(`rgba(${r}, ${g}, ${b}, 0.8)`)
+    {% endfor %}
+
 
     {% for p in patients_stats %}
         labels.push({{ p[0] }})
         data.push({{ p[1] }})
+        r = parseInt(Math.random() * 255)
+        g = parseInt(Math.random() * 255)
+        b = parseInt(Math.random() * 255)
+        colors2.push(`rgba(${r}, ${g}, ${b}, 0.8)`)
     {% endfor %}
-
-
     window.onload = function () {
-        drawPatientsStats(labels, data)
-        drawMedicinesStats(labelsMedicines, dataMedicines)
+        drawPatientsStats(labels, data, colors1)
+        drawMedicinesStats(labelsMedicines, dataMedicines, colors2)
+        drawRevenueStats(labelsRevenue, dataRevenue, colors3)
     }
 </script>
 {% endblock %}

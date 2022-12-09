@@ -82,7 +82,7 @@ class BenhNhan(db.Model):
     cccd = Column(String(12), nullable=False, unique=True)
     phieuKhamBenh = relationship('PhieuKhamBenh', backref='benhnhan', lazy=True)
     lichKham = relationship('LichKham', secondary='benhnhan_lichkham', lazy='subquery',
-                            backref=backref('e', lazy=True))
+                            backref=backref('benhnhan', lazy='joined'))
 
     def __str__(self):
         return self.hoTen
