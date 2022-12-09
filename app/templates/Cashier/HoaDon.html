@@ -1,0 +1,22 @@
+{% extends 'layout/base.html' %}
+{% block title %}Chi tiết phiếu khám{% endblock %}
+{% block content %}
+    <div class="container list_print" style="min-height: 50vh">
+        <h1 class="text-center text-color mt-3">HOÁ ĐƠN THANH TOÁN</h1>
+        <table class="table table-bordered" style="background-color: #f2f2f2">
+            <tr>
+                <td class="w-50"><b>Họ tên: </b>{{ patient_receipt[0][1] }}  </td>
+                <td><b>Ngày khám: </b> {{ patient_receipt[0][3].strftime('%d-%m-%Y') }} </td>
+            </tr>
+        </table>
+        <table class="table table-striped table-bordered">
+            <tr>
+                <th>Tiền khám:</th>
+                <th>Tiền thuốc:</th>
+            </tr>
+            <tr>
+                <td>Tổng tiền: </td>
+            </tr>
+        </table>
+    </div>
+{% endblock %}

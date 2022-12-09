@@ -2,7 +2,7 @@ from app import app, dao, login
 from flask import render_template, url_for, request, redirect, session, jsonify
 from flask_login import login_user, logout_user, current_user, login_required
 from app.models import LichKham, BenhNhan, UserRole
-
+from app.decorators import anonymous_user
 
 @app.route("/dang-ky-kham-truc-tuyen", methods=['GET', 'POST'])
 def make_appointment():
@@ -62,7 +62,6 @@ def login():
         user = dao.check_login(username=username, password=password)
         if user:
             login_user(user=user)
-            # print(current_user.vaiTro)
             if current_user.vaiTro == UserRole.ADMIN:
                 return  redirect('/admin')
             else:
@@ -74,6 +73,7 @@ def login():
 
 
 @app.route('/logout')
+# @anonymous_user
 def logout():
     logout_user()
     return redirect('dang-nhap')
@@ -234,6 +234,7 @@ def history_patient(patient_id):
                            )
 
 
+
 @app.route('/chi-tiet-phieu-kham/<int:report_id>')
 def report_details(report_id):
     report = dao.get_report_by_id(report_id)
@@ -244,6 +245,18 @@ def report_details(report_id):
                            medicines=medicines,
                            name_patient=patient
                            )
+@app.route('/Thanh-toan')
+def bill():
+    idPhieuKham = request.args.get('bill')
+    # report = dao.get_report_by_id(idPhieuKham)
+    dsPhieuKham = dao.load_report(idPhieuKham)
+    return render_template('/Cashier/ThanhToanHoaDon.html',
+                           dsPhieuKham=dsPhieuKham)
+@app.route('/Hoa-Don/<int:PhieuKhamBenh_id>')
+def get_payment(PhieuKhamBenh_id):
+    patient_receipt = dao.load_report(PhieuKhamBenh_id)
+    print(patient_receipt)
+    return render_template('/Cashier/HoaDon.html', patient_receipt=patient_receipt)
 
 @app.route("/")
 def home():

@@ -1,0 +1,64 @@
+{% extends 'layout/base.html' %}
+{% block title %}Thanh toán hoá đơn{% endblock %}
+{% block content %}
+    <h1 class="text-center text-color mt-3">Thanh toán hoá đơn</h1>
+    <div class="container w-75" style="min-height: 45.35vh;">
+        <form action="" class="mb-4">
+            <div class="mb-3 mt-3">
+                <input type="text" class="form-control" id="bill" placeholder="Nhập mã phiếu khám" name="bill">
+            </div>
+            <button type="submit" class="btn btn-primary">Tìm kiếm</button>
+        </form>
+        <div class="container">
+            <div class="row d-flex justify-content-center">
+                {% if dsPhieuKham %}
+                    {% for item in dsPhieuKham %}
+                        <div class="card mb-3" style="max-width: 500px; margin-right: 1rem">
+                            <div class="row g-0">
+                                <div class="col-md-4">
+                                    <img src="{{ url_for('static', filename='images/user.png') }}"
+                                         class="img-fluid rounded-start p-3"
+                                         alt="...">
+                                </div>
+                                <div class="col-md-8">
+                                    <div class="card-body">
+                                        <h5 class="card-title">Họ tên: {{ item[1] }}</h5>
+                                        <p class="card-text">Mã phiếu khám: {{ item[0] }}</p>
+                                        <p class="card-text">SĐT: {{ item[2] }} </p>
+                                        <a href="Hoa-Don/{{ item[0] }}"
+                                           class="btn btn-root">Thanh toán</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                {% else %}
+                    <h1 class="text-center">Không có hoá đơn nào!</h1>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+    {#<div class="container">#}
+    {#    {% if medicines %}#}
+    {#    <div class="row align-items-end">#}
+    {#        {% for m in medicines %}#}
+    {#        <div class="col-md-3 col-sm-12" style="padding:1rem;">#}
+    {#            <div class="card">#}
+    {#                <img class="card-img-top" style="height: 300px;" src="{{ m.image }}" alt="{{ m.name }}">#}
+    {#                <div class="card-body">#}
+    {#                    <h4 class="card-title card-name">{{ m.tenThuoc }}</h4>#}
+    {#                    <h4 class="card-title">ID: {{ m.id }}</h4>#}
+    {#                    <p class="card-text">Giá: {{ "{:,.0f}".format(m.donGia) }} VNĐ</p>#}
+    {#                    <input class="btn btn-root col-md-2" type="button" value="Thêm" style="height: 50px"#}
+    {#                           onclick="addToReport({{ m.id }}, '{{ m.tenThuoc }}', '{{ m.donVi }}', {{ m.donGia }})">#}
+    {#                </div>#}
+    {#            </div>#}
+    {#        </div>#}
+    {#        {% endfor %}#}
+    {#    </div>#}
+    {#    {% else %}#}
+    {#    <p class="text-success">Không có sản phẩm nào!</p>#}
+    {#    {% endif %}#}
+    {#</div>#}
+{% endblock %}

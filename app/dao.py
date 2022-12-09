@@ -1,8 +1,3 @@
-import datetime
-import hashlib
-
-import sqlalchemy
-
 from app.models import TaiKhoan, UserRole, BacSi, NguoiDung, LichKham, BenhNhan, Thuoc, PhieuKhamBenh,\
     PhieuKhamBenh_Thuoc, benhnhan_lichkham
 from sqlalchemy import func
@@ -155,6 +150,19 @@ def get_report_by_id(report_id):
 
 def get_patient_by_id(patient_id):
     return BenhNhan.query.filter(BenhNhan.id == patient_id).first()
+
+
+def load_report(idPhieuKham = None):
+    patient = db.session.query(PhieuKhamBenh.id, BenhNhan.hoTen, BenhNhan.sdt, PhieuKhamBenh.ngayKhamBenh).join(BenhNhan, PhieuKhamBenh.benhNhanId.__eq__(BenhNhan.id))
+    if idPhieuKham:
+        patient = patient.filter(BenhNhan.id.__eq__(idPhieuKham))
+    return patient.all()
+
+
+def get_money(id):
+    date = PhieuKhamBenh.query.filter(PhieuKhamBenh.id.__eq__(id))
+
+    return date.all()
 
 
 def revenue_stats(year):
