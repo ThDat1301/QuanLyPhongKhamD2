@@ -2,28 +2,8 @@
 {% block title %} Quản trị phòng khám {% endblock %}
 {% block body %}
     {% if current_user.is_authenticated and current_user.isAdmin() %}
-        <h1 class="text-center text-success">Chào mừng đến với trang quản trị phòng khám</h1>
+        <h1 class="text-center text-success mt-3">Chào mừng đến với trang quản trị phòng khám</h1>
     {% else %}
-        <h1 class="text-center">Trang yêu cầu không được tìm thấy</h1>
-        <div class="well">
-            <div class="row">
-                <div class="col-md-6">
-                    <p><strong>Đã xảy ra lỗi trong lúc xử lý yêu cầu.</strong></p>
-                    <p>Bạn không thể xem trang này bởi vì:</p>
-                    <ul>
-                        <li>Một <strong>mục Đánh dấu/Ưa thích hết hạng</strong></li>
-                        <li>Một <strong>địa chỉ sai</strong></li>
-                        <li>Chương trình tìm kiếm được một <strong>danh sách quá hạn của trang này</strong></li>
-                        <li>Bạn <strong>không có quyền truy cập</strong> trang web này</li>
-                    </ul>
-                </div>
-            </div>
-            <hr/>
-            <p>Nếu khó khăn vẫn còn, xin vui lòng liên hệ với Ban quản trị của trang web này và báo cáo các lỗi dưới
-                đây.</p>
-            <blockquote>
-                <span class="label label-default">404</span> Không tìm thấy bài viết
-            </blockquote>
-        </div>
+        <h1 class="text-center text-danger  mt-3">VUI LÒNG ĐĂNG NHẬP VỚI TÀI KHOẢN QUẢN TRỊ</h1>
     {% endif %}
 {% endblock %}

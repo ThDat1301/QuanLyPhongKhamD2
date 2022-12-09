@@ -84,7 +84,7 @@ class BenhNhan(db.Model):
     cccd = Column(String(12), nullable=False, unique=True)
     phieuKhamBenh = relationship('PhieuKhamBenh', backref='benhnhan', lazy=True)
     lichKham = relationship('LichKham', secondary='benhnhan_lichkham', lazy='subquery',
-                            backref=backref('e', lazy=True))
+                            backref=backref('benhnhan', lazy='joined'))
 
     def __str__(self):
         return self.hoTen
@@ -145,7 +145,8 @@ if __name__ == '__main__':
         tkad = TaiKhoan(vaiTro=UserRole.ADMIN, username='admin', password='1', nguoiDungId=3)
         tn = NguoiDung(namSinh=2002, diaChi='Binh Tan', hoTen='Nguyen Van A', sdt='015123213')
         tktn = TaiKhoan(vaiTro=UserRole.CASHIER, username='thungan', password='1', nguoiDungId=4)
-
+        # db.session.add_all([tn, tktn])
+        # db.session.commit()
         db.session.add_all([bs, tkbs, yta, tkyta, ad, tkad, tn, tktn])
         db.session.commit()
 # Tạo bảng

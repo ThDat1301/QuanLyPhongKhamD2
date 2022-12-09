@@ -4,6 +4,7 @@ from flask_login import login_user, logout_user, current_user, login_required
 from app.models import LichKham, BenhNhan, UserRole
 from app.decorators import anonymous_user
 
+
 @app.route("/dang-ky-kham-truc-tuyen", methods=['GET', 'POST'])
 def make_appointment():
     msg = ''
@@ -63,23 +64,22 @@ def login():
         if user:
             login_user(user=user)
             if current_user.vaiTro == UserRole.ADMIN:
-                return  redirect('/admin')
+                return redirect('/admin')
             else:
                 return redirect('/')
         else:
             err_msg = 'Sai tài khoản hoặc mật khẩu!!! Vui lòng nhập lại'
-
     return render_template('login.html', err_msg=err_msg)
 
 
 @app.route('/logout')
-# @anonymous_user
 def logout():
     logout_user()
     return redirect('dang-nhap')
 
 
 @app.route("/tra-cuu-thuoc")
+@login_required
 def tra_cuu_thuoc():
     medicines = dao.load_medicine(medicine=request.args.get('medicine'))
     return render_template('/doctor/tracuuthuoc.html',
@@ -87,6 +87,7 @@ def tra_cuu_thuoc():
 
 
 @app.route('/lap-phieu-kham', methods=['get', 'post'])
+@login_required
 def lap_phieu_kham():
     msg = ''
     success = None
@@ -101,23 +102,28 @@ def lap_phieu_kham():
         if not medicines_in_list:
             medicines_in_list = {}
         if patient:
-            try:
-                dao.add_report(patient=patient,
-                               ngayKhamBenh=ngayKham,
-                               trieuChung=trieuChung,
-                               duDoanBenh=duDoanBenh)
-                phieuKham = dao.get_phieu_kham_by_date_patient_id(ngayKham, patient.id)
-                dao.add_medicines_to_report(medicines_in_list, phieuKham)
-            except:
-                msg = "Lỗi hệ thống"
+            if dao.is_make_appointment(patient.id, dao.get_id_lichkham_by_date(ngayKham)):
+                try:
+                    dao.add_report(patient=patient,
+                                   ngayKhamBenh=ngayKham,
+                                   trieuChung=trieuChung,
+                                   duDoanBenh=duDoanBenh)
+                    phieuKham = dao.get_phieu_kham_by_date_patient_id(ngayKham, patient.id)
+                    dao.add_medicines_to_report(medicines_in_list, phieuKham)
+                except:
+                    msg = "Lỗi hệ thống"
+                    return render_template('/doctor/lapphieukham.html',
+                                           medicines=medicines,
+                                           msg=msg,
+                                           success=success)
+                success = True
+                msg = 'Lập phiếu thành công'
+
                 del session['medicines']
-                return render_template('/doctor/lapphieukham.html',
-                                       medicines=medicines,
-                                       msg=msg,
-                                       success=success)
-            success = True
-            msg = 'Lập phiếu thành công'
-            del session['medicines']
+            else:
+                msg = 'Bệnh nhân chưa đăng ký lịch khám'
+                success = False
+
         else:
             msg = 'Bệnh nhân không tồn tại'
             success = False
@@ -129,6 +135,7 @@ def lap_phieu_kham():
 
 
 @app.route('/ds-benh-nhan')
+@login_required
 def xem_ds_benh_nhan():
     patients = dao.load_patient()
     ds = dao.load_lichkham()
@@ -138,6 +145,7 @@ def xem_ds_benh_nhan():
 
 
 @app.route('/ds-benh-nhan/<string:ngayKham>')
+@login_required
 def chi_tiet_ds(ngayKham):
     ds = dao.load_lichkham_by_date(ngayKham)
     patients = dao.load_patients_by_date(ngayKham)
@@ -208,6 +216,7 @@ def delete_medicines(medicine_id):
 
 
 @app.route('/xem-lich-su-benh-nhan')
+@login_required
 def history_patients():
     patients = dao.load_patient(patient_name=request.args.get('patient_name'))
     return render_template('/doctor/xemdanhsachlichsubenhnhan.html',
@@ -215,6 +224,7 @@ def history_patients():
 
 
 @app.route('/xem-lich-su-benh-nhan/<int:patient_id>')
+@login_required
 def history_patient(patient_id):
     patient = dao.get_patient_by_id(patient_id)
     report_patient = dao.get_phieu_kham_by_patient_id(patient_id)
@@ -228,8 +238,8 @@ def history_patient(patient_id):
                            )
 
 
-
 @app.route('/chi-tiet-phieu-kham/<int:report_id>')
+@login_required
 def report_details(report_id):
     report = dao.get_report_by_id(report_id)
     patient = dao.get_patient_by_id(report.benhNhanId)
@@ -239,19 +249,29 @@ def report_details(report_id):
                            medicines=medicines,
                            name_patient=patient
                            )
+
+
 @app.route('/Thanh-toan')
+@login_required
 def bill():
     idPhieuKham = request.args.get('bill')
     # report = dao.get_report_by_id(idPhieuKham)
     dsPhieuKham = dao.load_report(idPhieuKham)
     return render_template('/Cashier/ThanhToanHoaDon.html',
                            dsPhieuKham=dsPhieuKham)
+
+
 @app.route('/Hoa-Don/<int:PhieuKhamBenh_id>')
+@login_required
 def get_payment(PhieuKhamBenh_id):
     patient_receipt = dao.load_report(PhieuKhamBenh_id)
-    date = dao.get_money(str(patient_receipt[0][3]))
-    print(date)
-    return render_template('/Cashier/HoaDon.html', patient_receipt=patient_receipt)
+    payment = dao.get_money(str(patient_receipt[0][3]))
+    price_medicines = dao.get_price_medicines(PhieuKhamBenh_id)
+    return render_template('/Cashier/HoaDon.html',
+                           patient_receipt=patient_receipt,
+                           payment=payment,
+                           price_medicines=price_medicines)
+
 
 @app.route("/")
 def home():

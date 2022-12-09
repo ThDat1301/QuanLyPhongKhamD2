@@ -1,8 +1,3 @@
-import datetime
-import hashlib
-
-import sqlalchemy
-
 from app.models import TaiKhoan, UserRole, BacSi, NguoiDung, LichKham, BenhNhan, Thuoc, PhieuKhamBenh,\
     PhieuKhamBenh_Thuoc, benhnhan_lichkham
 from sqlalchemy import func
@@ -66,11 +61,11 @@ def get_patient_by_id(patient_id):
 
 
 def load_lichkham():
-    return LichKham.query.all()
+    return LichKham.query.order_by(LichKham.ngayKham).all()
 
 
 def load_lichkham_by_date(day):
-    return LichKham.query.filter(LichKham.ngayKham == day).order_by(LichKham.ngayKham).first()
+    return LichKham.query.filter(LichKham.ngayKham == day).first()
 
 
 def get_id_lichkham_by_date(date):
@@ -119,12 +114,12 @@ def add_medicines_to_report(medicines, report):
                                                  cachDung=m.get('cachDung'),
                                                 )
             db.session.add(report_details)
+
         db.session.commit()
 
 
 def get_phieu_kham_by_date_patient_id(day, patient_id):
-    return PhieuKhamBenh.query.filter(PhieuKhamBenh.ngayKhamBenh == day
-                                      and PhieuKhamBenh.benhNhanId == patient_id).first()
+    return PhieuKhamBenh.query.filter(PhieuKhamBenh.ngayKhamBenh.__eq__(day), PhieuKhamBenh.benhNhanId.__eq__(patient_id)).first()
 
 
 def get_phieu_kham_by_patient_id(patient_id):
@@ -155,35 +150,45 @@ def get_report_by_id(report_id):
 def get_patient_by_id(patient_id):
     return BenhNhan.query.filter(BenhNhan.id == patient_id).first()
 
+
 def load_report(idPhieuKham = None):
-    patient = db.session.query(PhieuKhamBenh.id, BenhNhan.hoTen, BenhNhan.sdt, PhieuKhamBenh.ngayKhamBenh).join(BenhNhan, PhieuKhamBenh.benhNhanId.__eq__(BenhNhan.id))
+    patient = db.session.query(PhieuKhamBenh.id, BenhNhan.hoTen, BenhNhan.sdt, PhieuKhamBenh.ngayKhamBenh)\
+        .join(BenhNhan, PhieuKhamBenh.benhNhanId.__eq__(BenhNhan.id))
     if idPhieuKham:
-        patient = patient.filter(BenhNhan.id.__eq__(idPhieuKham))
+        patient = patient.filter(PhieuKhamBenh.id.__eq__(idPhieuKham))
     return patient.all()
 
+def get_price_medicines(reportId):
+    return db.session.query(func.sum(Thuoc.donGia*PhieuKhamBenh_Thuoc.soLuong))\
+              .join(PhieuKhamBenh_Thuoc, Thuoc.id.__eq__(PhieuKhamBenh_Thuoc.thuoc_id))\
+              .filter(PhieuKhamBenh_Thuoc.phieukhambenh_id.__eq__(reportId)).all()
 
 def get_money(date):
-
-    return date
-
+    return db.session.query(LichKham.tienKham).filter(LichKham.ngayKham.__eq__(date)).first()
 
 
-def revenue_stats():
-    return db.session.query(PhieuKhamBenh_Thuoc.thuoc_id, Thuoc.tenThuoc, func.sum(PhieuKhamBenh_Thuoc.soLuong * Thuoc.donGia))\
-            .join(Thuoc, Thuoc.id.__eq__(PhieuKhamBenh_Thuoc.thuoc_id))\
-            .group_by(Thuoc.id).all()
+
+def revenue_stats(year):
+    return db.session.query(extract('month', PhieuKhamBenh.ngayKhamBenh),\
+                            func.sum(PhieuKhamBenh_Thuoc.soLuong * Thuoc.donGia))\
+            .join(Thuoc, Thuoc.id.__eq__(PhieuKhamBenh_Thuoc.thuoc_id)).join(PhieuKhamBenh)\
+        .filter(extract('year', PhieuKhamBenh.ngayKhamBenh) == year)\
+            .group_by(extract('month', PhieuKhamBenh.ngayKhamBenh)).all()
 
 
 def patients_quantity_stats(year):
-    return db.session.query(extract('month', PhieuKhamBenh.ngayKhamBenh, ),
+    return db.session.query(extract('month', PhieuKhamBenh.ngayKhamBenh),
                             func.count(PhieuKhamBenh.benhNhanId))\
         .filter(extract('year', PhieuKhamBenh.ngayKhamBenh) == year)\
         .group_by(extract('month', PhieuKhamBenh.ngayKhamBenh))\
         .order_by(extract('month', PhieuKhamBenh.ngayKhamBenh)).all()
 
-def medicines_stats():
+
+def medicines_stats(month, year):
     return db.session.query(Thuoc.tenThuoc, Thuoc.donVi, Thuoc.soLuong, func.sum(PhieuKhamBenh_Thuoc.soLuong))\
-        .join(Thuoc, PhieuKhamBenh_Thuoc.thuoc_id.__eq__(Thuoc.id))\
+        .join(Thuoc, PhieuKhamBenh_Thuoc.thuoc_id.__eq__(Thuoc.id)).join(PhieuKhamBenh)\
+        .filter(extract('month', PhieuKhamBenh.ngayKhamBenh).__eq__(month),
+                extract('year', PhieuKhamBenh.ngayKhamBenh).__eq__(year))\
         .group_by(PhieuKhamBenh_Thuoc.thuoc_id)\
         .order_by(Thuoc.tenThuoc).all()
 
@@ -199,13 +204,12 @@ def get_id_patient_by_cccd(cccd):
     return BenhNhan.query.filter(BenhNhan.cccd.__eq__(cccd)).first().id
 
 
-def add_benhnhan_lichkham(benhNhanId, lichKhamId):
-    lich = benhnhan_lichkham(benhNhanId=benhNhanId, lichKhamId=lichKhamId)
-    db.session.add(lich)
-    db.session.commit()
+def is_make_appointment(patient_id, lichkham_id):
+    patient = BenhNhan.query.join(benhnhan_lichkham).join(LichKham)\
+        .filter(BenhNhan.id.__eq__(patient_id), benhnhan_lichkham.c.lichKhamId.__eq__(lichkham_id)).all()
+    if patient:
+        return True
+    return False
 
-if __name__ == '__main__':
-    with app.app_context():
-        print(get_money())
 
 

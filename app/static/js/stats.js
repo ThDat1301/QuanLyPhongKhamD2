@@ -1,4 +1,4 @@
-function drawPatientsStats(labels, data) {
+function drawPatientsStats(labels, data, colors) {
     const ctx = document.getElementById('patientsStats');
 
     new Chart(ctx, {
@@ -8,7 +8,8 @@ function drawPatientsStats(labels, data) {
             datasets: [{
                 label: 'Số bệnh nhân',
                 data: data,
-                borderWidth: 1
+                borderWidth: 1,
+                backgroundColor: colors
             }]
         },
         options: {
@@ -20,7 +21,7 @@ function drawPatientsStats(labels, data) {
         }
     });
 }
-function drawMedicinesStats(labels, data) {
+function drawMedicinesStats(labels, data, colors) {
     const ctx = document.getElementById('medicinesStats');
 
     new Chart(ctx, {
@@ -30,7 +31,33 @@ function drawMedicinesStats(labels, data) {
             datasets: [{
                 label: 'Số lượng sử dụng',
                 data: data,
-                borderWidth: 1
+                borderWidth: 1,
+                backgroundColor: colors
+            }]
+        },
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
+        }
+    });
+}
+
+function drawRevenueStats(labels, data, colors) {
+    const ctx = document.getElementById('revenueStats');
+
+    new Chart(ctx, {
+        type: 'pie',
+        data: {
+            labels: labels,
+            datasets: [{
+                label: 'đồng',
+                data: data,
+                borderWidth: 1,
+                backgroundColor: colors
+
             }]
         },
         options: {
