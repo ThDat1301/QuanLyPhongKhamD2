@@ -119,8 +119,8 @@ def add_medicines_to_report(medicines, report):
 
 
 def get_phieu_kham_by_date_patient_id(day, patient_id):
-    return PhieuKhamBenh.query.filter(PhieuKhamBenh.ngayKhamBenh == day
-                                      and PhieuKhamBenh.benhNhanId == patient_id).first()
+    return PhieuKhamBenh.query.filter(PhieuKhamBenh.ngayKhamBenh.__eq__(day),
+                                      PhieuKhamBenh.benhNhanId.__eq__(patient_id)).first()
 
 
 def get_phieu_kham_by_patient_id(patient_id):

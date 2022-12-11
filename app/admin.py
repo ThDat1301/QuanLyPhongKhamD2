@@ -8,12 +8,17 @@ from datetime import datetime
 
 admin = Admin(app, name='Quản trị phòng khám', template_mode='bootstrap4')
 
+
 class AuthenticatedModelView(ModelView):
     def is_accessible(self):
         return current_user.is_authenticated and current_user.vaiTro == UserRole.ADMIN
+
+
 class AuthenticatedView(BaseView):
     def is_accessible(self):
         return current_user.is_authenticated
+
+
 class xemThuoc(ModelView):
     can_view_details = True
     can_export = True

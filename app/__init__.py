@@ -9,6 +9,5 @@ app.config["SQLALCHEMY_DATABASE_URI"] = "mysql+pymysql://root:%s@localhost/clini
 # ducprotc123
 app.secret_key = '(@*$&!(*@&$(*!&@()%&*(!@*%&(*!@&##)(!@$&(!@$&*^!@*(&$^@!&*^#!&*@#^*'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
-
 db = SQLAlchemy(app=app)
 login = LoginManager(app=app)

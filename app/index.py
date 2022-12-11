@@ -1,11 +1,13 @@
 from app import app, dao, login
 from flask import render_template, url_for, request, redirect, session, jsonify
 from flask_login import login_user, logout_user, current_user, login_required
+from twilio.rest import Client
 from app.models import LichKham, BenhNhan, UserRole
 from app.decorators import anonymous_user
 
 @app.route("/dang-ky-kham-truc-tuyen", methods=['GET', 'POST'])
 def make_appointment():
+    client = Client(account_sid, auth_token)
     msg = ''
     success = None
     if request.method.__eq__('POST'):
@@ -102,7 +104,6 @@ def lap_phieu_kham():
             medicines_in_list = {}
         if patient:
             if dao.is_make_appointment(patient.id, dao.get_id_lichkham_by_date(ngayKham)):
-
                 try:
                     dao.add_report(patient=patient,
                                    ngayKhamBenh=ngayKham,
@@ -118,7 +119,6 @@ def lap_phieu_kham():
                                            success=success)
                 success = True
                 msg = 'Lập phiếu thành công'
-
                 del session['medicines']
             else:
                 msg = 'Bệnh nhân chưa đăng ký lịch khám'
