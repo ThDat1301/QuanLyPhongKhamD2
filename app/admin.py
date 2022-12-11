@@ -19,7 +19,7 @@ class AuthenticatedView(BaseView):
         return current_user.is_authenticated
 
 
-class xemThuoc(ModelView):
+class xemThuoc(AuthenticatedModelView):
     can_view_details = True
     can_export = True
     column_export_list = ['tenThuoc', 'donVi', 'donGia', 'SoLuong']
@@ -36,7 +36,7 @@ class xemThuoc(ModelView):
     page_size = 10
 
 
-class StatsView(BaseView):
+class StatsView(AuthenticatedView):
     @expose('/')
     def index(self):
         year_patient = request.args.get('year-patient', datetime.now().year)
@@ -57,17 +57,23 @@ class StatsView(BaseView):
                            total=total)
 
 
-class LogoutAdmin(BaseView):
+class AppointmentView(AuthenticatedModelView):
+    can_view_details = True
+    column_labels = {
+        'ngayKham': 'Ngày khám',
+        'soLuong': 'Số lượng',
+        'tienKham': 'Tiền khám',
+    }
+
+
+class LogoutAdmin(AuthenticatedView):
     @expose('/')
     def index(self):
         logout_user()
         return redirect('/')
-class PatientView(ModelView):
-    can_view_details = True
-    can_export = True
-#AuthenticatedModelView
-admin.add_view(PatientView(BenhNhan, db.session, name='Bệnh nhân'))
+
+
 admin.add_view(xemThuoc(Thuoc, db.session, name='Quản lý thuốc'))
-admin.add_view(ModelView(LichKham, db.session, name='Quản lý danh sách khám'))
+admin.add_view(AppointmentView(LichKham, db.session, name='Quản lý lịch khám'))
 admin.add_view(StatsView(name='Thống kê - báo cáo'))
 admin.add_view(LogoutAdmin(name='Đăng xuất'))

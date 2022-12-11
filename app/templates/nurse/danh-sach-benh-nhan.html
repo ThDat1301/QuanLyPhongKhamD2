@@ -9,7 +9,7 @@
         </button>
         <ul class="dropdown-menu">
             {% for d in ds %}
-            <li><a class="dropdown-item" href="{{ url_for('chi_tiet_ds', ngayKham=d.ngayKham) }}">{{ d.ngayKham.strftime('%d-%m-%Y') }}</a></li>
+            <li><a class="dropdown-item" href="{{ url_for('list-patients-details', ngayKham=d.ngayKham) }}">{{ d.ngayKham.strftime('%d-%m-%Y') }}</a></li>
             {% endfor %}
         </ul>
     </div>

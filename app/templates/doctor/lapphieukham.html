@@ -38,7 +38,7 @@
     <!--    </table>-->
     <div class="container w-50 bg-light p-3 d-flex">
         <div class="container mt-3">
-            <form class="lap-phieu-kham-form" action="{{ url_for('lap_phieu_kham') }}" method="post">
+            <form class="lap-phieu-kham-form" action="{{ url_for('make-report') }}" method="post">
                 {% if msg and success%}
                 <div class="alert alert-success" role="alert">
                     {{ msg }}

@@ -1,9 +1,8 @@
 import datetime
-
 from sqlalchemy import Column, String, Integer, Boolean, Date, Float, ForeignKey, func, Enum
 from enum import Enum as UserEnum
 from sqlalchemy.orm import relationship, backref
-from flask_login import UserMixin, current_user
+from flask_login import UserMixin
 from app import app, db
 
 
@@ -44,9 +43,11 @@ class TaiKhoan(db.Model, UserMixin):
     def isAdmin(self):
         if self.vaiTro == UserRole.ADMIN:
             return True
+
     def isCashier(self):
         if self.vaiTro == UserRole.CASHIER:
             return True
+
     def __str__(self):
         return self.username
 
@@ -90,16 +91,6 @@ class BenhNhan(db.Model):
         return self.hoTen
 
 
-# phieukhambenh_thuoc = db.Table('phieukhambenh_thuoc',
-#                            Column('phieuKhamBenhId', Integer,
-#                                   ForeignKey('phieukhambenh.id'),
-#                                   primary_key=True),
-#                            Column('thuocId', Integer,
-#                                   ForeignKey('thuoc.id'),
-#                                   primary_key=True)
-#                            )
-
-
 class PhieuKhamBenh(db.Model):
     __tablename__ = 'phieukhambenh'
     id = Column(Integer, primary_key=True, autoincrement=True)
@@ -138,18 +129,16 @@ if __name__ == '__main__':
         db.create_all()
 
         bs = BacSi(namSinh=2002, diaChi='Bình Tân', hoTen='Lê Minh Đức', sdt='0123456790', chuyenKhoa='Mat')
-        tkbs = TaiKhoan(vaiTro=UserRole.DOCTOR, username='duc', password='1', nguoiDungId=1)
+        tkbs = TaiKhoan(vaiTro=UserRole.DOCTOR, username='bacsi', password='1', nguoiDungId=1)
         yta = NguoiDung(namSinh=2002, diaChi='Bình Tân', hoTen='Trương Thành Đạt', sdt='0123456790')
-        tkyta = TaiKhoan(vaiTro=UserRole.NURSE, username='dat', password='1', nguoiDungId=2)
+        tkyta = TaiKhoan(vaiTro=UserRole.NURSE, username='yta', password='1', nguoiDungId=2)
         ad = NguoiDung(namSinh=2002, diaChi='Bình Tân', hoTen='Văn Trúc Vy', sdt='0123456790')
         tkad = TaiKhoan(vaiTro=UserRole.ADMIN, username='admin', password='1', nguoiDungId=3)
         tn = NguoiDung(namSinh=2002, diaChi='Binh Tan', hoTen='Nguyen Van A', sdt='015123213')
         tktn = TaiKhoan(vaiTro=UserRole.CASHIER, username='thungan', password='1', nguoiDungId=4)
-
         db.session.add_all([bs, tkbs, yta, tkyta, ad, tkad, tn, tktn])
         db.session.commit()
 # Tạo bảng
-
 
         t1 = Thuoc(tenThuoc="Tobrex", donVi="Lọ", donGia="42798", image="https://res.cloudinary.com/dgyytgkae/image/upload/v1668356628/medicine/tobrex_tuhk3d.jpg")
         t2 = Thuoc(tenThuoc="Natri Colorid thuốc nhỏ mắt", donVi="Lọ", donGia="1617", image='https://res.cloudinary.com/dgyytgkae/image/upload/v1668358416/medicine/natriclorid_wqho0t.jpg')
@@ -187,16 +176,4 @@ if __name__ == '__main__':
                            t21, t22, t23, t24, t25, t26, t27, t28, t29, t30])
 
         db.session.commit()
-#
-# # id = Column(Integer, primary_key=True, autoincrement=True)
-# # namSinh = Column(Integer, nullable=False)
-# # diaChi = Column(String(100), nullable=False)
-# # hoTen = Column(String(50), nullable=False)
-# # sdt = Column(String(10), nullable=False)
-# # vaiTro = Column(Enum(UserRole), default=UserRole.USER)
-# # username = Column(String(50), nullable=False)
-# # password = Column(String(50), nullable=False)
-# # ad = User(username="admin", password="123")
-# # db.session.add(ad)
-# # db.session.commit()
 

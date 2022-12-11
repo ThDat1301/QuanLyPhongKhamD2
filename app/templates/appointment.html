@@ -1,4 +1,5 @@
 {% extends 'layout/base.html' %}
+{% block title %}Đặt lịch khám bệnh{% endblock %}
 {% block content %}
 <h1 class="text-center text-color">Đặt lịch khám bệnh</h1>
 <div class="container w-50 bg-light p-3">
@@ -12,7 +13,7 @@
                 {{ msg }}
             </div>
         {% endif %}
-        <form class="other-form" action="{{ url_for('make_appointment') }}" method="post">
+        <form class="other-form" action="{{ url_for('make-appointment') }}" method="post">
              <div class="mb-3 form-floating">
                 <input type="text" class="form-control" id="hoten" placeholder="Nhập họ tên..." name="hoten" required>
                 <label for="hoten">Họ tên: </label>

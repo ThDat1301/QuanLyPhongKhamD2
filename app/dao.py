@@ -113,6 +113,8 @@ def add_medicines_to_report(medicines, report):
                                                  phieukhambenh_id=report.id,
                                                  cachDung=m.get('cachDung'),
                                                 )
+            db.session.query(Thuoc).filter(Thuoc.id.__eq__(m.get('id')))\
+                .update({'soLuong': Thuoc.soLuong - m.get('soLuongThem')})
             db.session.add(report_details)
 
         db.session.commit()
@@ -153,16 +155,20 @@ def get_patient_by_id(patient_id):
 
 
 def load_report(idPhieuKham = None):
-    patient = db.session.query(PhieuKhamBenh.id, BenhNhan.hoTen, BenhNhan.sdt, PhieuKhamBenh.ngayKhamBenh).join(BenhNhan, PhieuKhamBenh.benhNhanId.__eq__(BenhNhan.id))
+    patient = db.session.query(PhieuKhamBenh.id, BenhNhan.hoTen, BenhNhan.sdt, PhieuKhamBenh.ngayKhamBenh)\
+        .join(BenhNhan, PhieuKhamBenh.benhNhanId.__eq__(BenhNhan.id))
     if idPhieuKham:
-        patient = patient.filter(BenhNhan.id.__eq__(idPhieuKham))
+        patient = patient.filter(PhieuKhamBenh.id.__eq__(idPhieuKham))
     return patient.all()
 
+def get_price_medicines(reportId):
+    return db.session.query(func.sum(Thuoc.donGia*PhieuKhamBenh_Thuoc.soLuong))\
+              .join(PhieuKhamBenh_Thuoc, Thuoc.id.__eq__(PhieuKhamBenh_Thuoc.thuoc_id))\
+              .filter(PhieuKhamBenh_Thuoc.phieukhambenh_id.__eq__(reportId)).all()
 
-def get_money(id):
-    date = PhieuKhamBenh.query.filter(PhieuKhamBenh.id.__eq__(id))
+def get_money(date):
+    return db.session.query(LichKham.tienKham).filter(LichKham.ngayKham.__eq__(date)).first()
 
-    return date.all()
 
 
 def revenue_stats(year):
@@ -207,21 +213,6 @@ def is_make_appointment(patient_id, lichkham_id):
     if patient:
         return True
     return False
-
-
-if __name__ == '__main__':
-    with app.app_context():
-        num = db.session.query(func.count(BenhNhan.id)).join(LichKham, LichKham.ngayKham.__eq__(date.today())).all()
-        limit = db.session.query(LichKham.soLuong).filter(LichKham.ngayKham == date.today()).first()
-        print(db.session.query(Thuoc.tenThuoc, Thuoc.donVi, Thuoc.soLuong, func.sum(PhieuKhamBenh_Thuoc.soLuong))\
-        .join(Thuoc, PhieuKhamBenh_Thuoc.thuoc_id.__eq__(Thuoc.id)).join(PhieuKhamBenh)\
-        .filter(extract('month', PhieuKhamBenh.ngayKhamBenh).__eq__(1),
-                extract('year', PhieuKhamBenh.ngayKhamBenh).__eq__(2023))\
-        .group_by(PhieuKhamBenh_Thuoc.thuoc_id)\
-        .order_by(Thuoc.tenThuoc).all())
-
-
-
 
 
 

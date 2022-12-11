@@ -11,7 +11,7 @@
                 <div class="card-body">
                     <h4 class="card-title">Phiếu khám {{ r.id }}</h4>
                     <h4 class="card-text">Ngày: {{ r.ngayKhamBenh.strftime('%d-%m-%Y') }}</h4>
-                    <a class="btn btn-root" href="{{ url_for('report_details', report_id=r.id) }}">Chi tiết</a>
+                    <a class="btn btn-root" href="{{ url_for('report-details', report_id=r.id) }}">Chi tiết</a>
 
                 </div>
             </div>

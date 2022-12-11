@@ -5,18 +5,19 @@
         <h1 class="text-center text-color mt-3">HOÁ ĐƠN THANH TOÁN</h1>
         <table class="table table-bordered" style="background-color: #f2f2f2">
             <tr>
-                <td class="w-50"><b>Họ tên: </b>{{ patient_receipt[0][1] }}  </td>
-                <td><b>Ngày khám: </b> {{ patient_receipt[0][3].strftime('%d-%m-%Y') }} </td>
-            </tr>
-        </table>
-        <table class="table table-striped table-bordered">
-            <tr>
-                <th>Tiền khám:</th>
-                <th>Tiền thuốc:</th>
+                <td class="w-50">Họ tên: <b>{{ patient_receipt[0][1] }}</b>  </td>
+                <td>Ngày khám: {{ patient_receipt[0][3].strftime('%d-%m-%Y') }} </td>
             </tr>
             <tr>
-                <td>Tổng tiền: </td>
+                <td>Tiền khám: {{ "{:,.0f}".format(payment[0]) }} VND</td>
+                <td>Tiền thuốc: {{ "{:,.0f}".format(price_medicines[0][0]) }} VND</td>
+            </tr>
+            <tr>
+                <td class="fw-bold" colspan="2">Tổng tiền: {{ "{:,.0f}".format(payment[0] + price_medicines[0][0]) }} VND</td>
             </tr>
         </table>
+    </div>
+    <div class="container mb-3">
+    <input class='btn btn-root d-flex justify-content-center' type="button" value="In hoá đơn" onclick="print_list_patient()">
     </div>
 {% endblock %}

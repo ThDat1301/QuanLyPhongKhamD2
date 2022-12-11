@@ -11,9 +11,16 @@ itsdangerous==2.1.2
 Jinja2==3.1.2
 MarkupSafe==2.1.1
 mysql-connector-python==8.0.30
+protobuf==3.20.1
+PyJWT==2.6.0
 PyMySQL==1.0.2
+PySocks==1.7.1
+pytz==2022.6
+requests==2.8.1
+six==1.16.0
 SQLAlchemy==1.4.43
 sqlparse==0.4.3
+twilio==6.0.0
 tzdata==2022.5
 Werkzeug==2.2.2
 WTForms==3.0.1
