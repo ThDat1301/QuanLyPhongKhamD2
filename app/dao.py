@@ -176,7 +176,8 @@ def revenue_stats(year):
                             func.sum(PhieuKhamBenh_Thuoc.soLuong * Thuoc.donGia))\
             .join(Thuoc, Thuoc.id.__eq__(PhieuKhamBenh_Thuoc.thuoc_id)).join(PhieuKhamBenh)\
         .filter(extract('year', PhieuKhamBenh.ngayKhamBenh) == year)\
-            .group_by(extract('month', PhieuKhamBenh.ngayKhamBenh)).all()
+            .group_by(extract('month', PhieuKhamBenh.ngayKhamBenh))\
+        .order_by(extract('month', PhieuKhamBenh.ngayKhamBenh)).all()
 
 
 def patients_quantity_stats(year):

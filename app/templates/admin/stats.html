@@ -56,12 +56,12 @@
                 {% for r in revenue_stats %}
                 <tr>
                     <td>{{ r[0] }}</td>
-                    <td>{{ "{:,.1f}".format(r[1]) }}đ</td>
+                    <td>{{ "{:,.1f}".format(r[1]) }} VNĐ</td>
                     <td>{{ "{:.2f}".format(r[1] * 100 / total) }}%</td>
                 </tr>
                 {% endfor %}
             </table>
-            <h3 class="text-success text-center">Tổng doanh thu: {{ "{:,.1f}".format(total) }}đ</h3>
+            <h3 class="text-success text-center">Tổng doanh thu: {{ "{:,.1f}".format(total) }} VNĐ</h3>
         </div>
     </div>
     <h2 class="text-success text-center mt-4 mb-4">Thống kê tần suất sử dụng thuốc</h2>
