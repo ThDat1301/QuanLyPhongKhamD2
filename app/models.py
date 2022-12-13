@@ -1,4 +1,6 @@
 import datetime
+import hashlib
+
 from sqlalchemy import Column, String, Integer, Boolean, Date, Float, ForeignKey, func, Enum
 from enum import Enum as UserEnum
 from sqlalchemy.orm import relationship, backref
@@ -127,15 +129,15 @@ class PhieuKhamBenh_Thuoc(db.Model):
 if __name__ == '__main__':
     with app.app_context():
         db.create_all()
-
+        password = str(hashlib.md5('1'.encode('utf-8')).hexdigest())
         bs = BacSi(namSinh=2002, diaChi='Bình Tân', hoTen='Lê Minh Đức', sdt='0123456790', chuyenKhoa='Mat')
-        tkbs = TaiKhoan(vaiTro=UserRole.DOCTOR, username='bacsi', password='1', nguoiDungId=1)
+        tkbs = TaiKhoan(vaiTro=UserRole.DOCTOR, username='bacsi', password=password, nguoiDungId=1)
         yta = NguoiDung(namSinh=2002, diaChi='Bình Tân', hoTen='Trương Thành Đạt', sdt='0123456790')
-        tkyta = TaiKhoan(vaiTro=UserRole.NURSE, username='yta', password='1', nguoiDungId=2)
+        tkyta = TaiKhoan(vaiTro=UserRole.NURSE, username='yta', password=password, nguoiDungId=2)
         ad = NguoiDung(namSinh=2002, diaChi='Bình Tân', hoTen='Văn Trúc Vy', sdt='0123456790')
-        tkad = TaiKhoan(vaiTro=UserRole.ADMIN, username='admin', password='1', nguoiDungId=3)
+        tkad = TaiKhoan(vaiTro=UserRole.ADMIN, username='admin', password=password, nguoiDungId=3)
         tn = NguoiDung(namSinh=2002, diaChi='Binh Tan', hoTen='Nguyen Van A', sdt='015123213')
-        tktn = TaiKhoan(vaiTro=UserRole.CASHIER, username='thungan', password='1', nguoiDungId=4)
+        tktn = TaiKhoan(vaiTro=UserRole.CASHIER, username='thungan', password=password, nguoiDungId=4)
         db.session.add_all([bs, tkbs, yta, tkyta, ad, tkad, tn, tktn])
         db.session.commit()
 # Tạo bảng
