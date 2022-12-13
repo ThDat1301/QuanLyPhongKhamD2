@@ -1,3 +1,5 @@
+import hashlib
+
 from app.models import TaiKhoan, UserRole, BacSi, NguoiDung, LichKham, BenhNhan, Thuoc, PhieuKhamBenh,\
     PhieuKhamBenh_Thuoc, benhnhan_lichkham
 from sqlalchemy import func
@@ -19,7 +21,7 @@ def get_user_by_id(user_id):
 
 def check_login(username, password):
     if username and password:
-        # password = str(hashlib.md5(password.strip().encode('utf-8')).hexdigest())
+        password = str(hashlib.md5(password.strip().encode('utf-8')).hexdigest())
         return TaiKhoan.query.filter(TaiKhoan.username.__eq__(username.strip()),
                                      TaiKhoan.password.__eq__(password)).first()
 
@@ -214,6 +216,11 @@ def is_make_appointment(patient_id, lichkham_id):
     if patient:
         return True
     return False
+
+
+if __name__ == '__main__':
+    with app.app_context():
+        print(TaiKhoan.query.filter(TaiKhoan.username.__eq__('duc'.strip())).first())
 
 
 
